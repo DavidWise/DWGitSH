@@ -1,0 +1,26 @@
+Last command done (1 command done):
+   pick 47cfa9ceb Created component to handle the collapsing or showing of selected areas
+Next command to do (1 remaining command):
+   squash 4f1d6962b Added ability to control multiple panels per control
+  (use "git rebase --edit-todo" to view and edit)
+You are currently rebasing branch 'collapsable_component_ci' on '0bf11403f'.
+  (fix conflicts and then run "git rebase --continue")
+  (use "git rebase --skip" to skip this patch)
+  (use "git rebase --abort" to check out the original branch)
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        new file:   SampleApp.Web/Content/modules/collapsable-component.less
+        modified:   SampleApp.Web/Content/remaining.less
+        modified:   SampleApp.Web/Resources/WebStrings.Designer.cs
+        modified:   SampleApp.Web/SampleApp.Web.csproj
+        new file:   SampleApp.Web/Scripts/app/collapsable-component.js
+        new file:   SampleApp.Web/ViewModels/Shared/CollapsableComponentViewModel.cs
+        new file:   SampleApp.Web/Views/Shared/_CollapsableComponent.cshtml
+
+Unmerged paths:
+  (use "git reset HEAD <file>..." to unstage)
+  (use "git add <file>..." to mark resolution)
+
+        both modified:   SampleApp.Web/Resources/WebStrings.resx

@@ -1,0 +1,15 @@
+﻿Group, Foreground, Background,
+default, gray, 
+userId, White, 
+branch, Yellow,
+branchAlert, Yellow, DarkRed
+basePath, Cyan, DarkBlue
+fullPath, Magenta,
+abLabel, Red,
+abValue, white,
+promptToken, Yellow,
+sysFolder, White, DarkRed
+stageLabel, Yellow
+stageUp, Green
+stageDown, Red
+commandExecBar, Cyan

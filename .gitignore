@@ -1,0 +1,17 @@
+#Visual Studio
+# VS2017 and VSCode config files.
+.vs
+obj
+bin
+*.user
+*.suo
+.suo
+packages
+/packages/*
+TestResults
+!packages/repositories.config
+/Backup/*
+UpgradeLog.htm
+/*/Deploy/*
+customColors.csv
+CustomGitPrompt.ps1

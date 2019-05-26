@@ -1,0 +1,23 @@
+﻿On branch develop
+Your branch is up to date with 'origin/develop'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+		modified:   Tests/Gitsh.Extensions.Tests/Gitsh.Extensions.Tests.csproj
+		modified:   SampleApp.Web/Scripts/React/TicTacToe/board.jsx
+		copied:     SampleApp.Web/Scripts/app/react.bundle.js -> SampleApp.Web/Scripts/app/react-dom.bundle.js
+		modified:   SampleApp.Web/Scripts/app/react.bundle.js
+		modified:   SampleApp.Web/Scripts/app/tictactoe.bundle.js
+		modified:   SampleApp.Web/Views/Shared/_Layout.cshtml
+		modified:   SampleApp.Web/webpack.config.js
+		modified:   package-lock.json
+		modified:   package.json
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        Tests/Gitsh.Extensions.Tests/Commands/Git/
+
+no changes added to commit (use "git add" and/or "git commit -a")

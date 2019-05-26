@@ -1,0 +1,21 @@
+{
+  "name": "dwgitsh",
+  "version": "0.0.1",
+  "description": "Light-duty alternative to git bash since git bash performs horribly on systems with disk monitoring.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidWise/GitSH.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavidWise/GitSH/issues"
+  },
+  "homepage": "https://github.com/DavidWise/GitSH#readme"
+}
