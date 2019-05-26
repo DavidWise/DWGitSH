@@ -7,13 +7,13 @@ Project Properties - Debug
 
 
 -- Command line arguments
-	-NoExit -Command "C:\sw\spike\gitsh\devenv.ps1"
+	-NoExit -Command "C:\path\to\projectdir\devenv.ps1"
 
 I'm not sure why but -NoExit has to be first otherwise it doesn't honor it
 
 #>
 
-cd C:\SW\Spike\gitsh\Gitsh.Extensions;
-Import-Module .\bin\Debug\Gitsh.Extensions.dll -force;
+Get-Location
+Import-Module .\DWGitsh.Extensions.dll -force;
 cd PSScripts
 .\Start-GitShell.ps1

@@ -9,8 +9,8 @@ function InitEnv([string] $basePath) {
     if ($script:sessionVars.Initialized -eq $true) { return }
 
     if ($script:sessionVars.ModuleLoaded -ne $true) {
-        $needsModule = (get-module | where {$_.Name -eq "gitsh.Extensions" }) -eq $null
-        $libPath = [IO.Path]::Combine($basePath, "Gitsh.Extensions.dll")
+        $needsModule = (get-module | where {$_.Name -eq "DWGitsh.Extensions" }) -eq $null
+        $libPath = [IO.Path]::Combine($basePath, "DWGitsh.Extensions.dll")
 
         if ($needsModule -eq $true) {
             Import-Module $libPath -force -ErrorAction SilentlyContinue
