@@ -5,7 +5,7 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 
 
 ## Features
-- Much faster basic response time than git bash
+- Faster basic response time than git bash
 - Flexible prompt
   - Prompt becomes git bash like prompt when in a folder under a git repository
   - Shows ahead/behind on prompt
@@ -21,12 +21,13 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
   - `Get-GitDetails` - returns detailed information about the current repository in a form that can be used in subsequent PowerShell commands
   - `Write-Text` - like Write-Host except that it can use the color groups defined for the shell, including the custom colors.  Custom color groups are also supported
   - `Get-GitLog` - returns the git log as an object that can be manipulated in powershell.  Supports `-After` and `-Before` date restrictions as well as the built-in options that git log offers.
+  - `Get-GitConfig` - return an object that contains key information from the config as well as a list of all of the config values in a Dictionary<string, string>
   - `Get-GitshVersion` - returns the current version number.  This is also shown when starting the shell
 
 
 # Setup
 1. Clone the Repo
-2. Build it in Visual Studio / Rider
+2. Build it in Visual Studio
 3. Copy the contents of the `Gitsh.Extensions/Deploy` folder to a more permanent location on your local drive
 4. Start PowerShell and type 
     ```PowerShell
@@ -35,7 +36,10 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 
     ise $profile.CurrentUserAllHosts
     ```
-5. In ISE, enter `set-Alias gitsh C:\path\to\your\copy\of\Start-GitShell.ps1`
+5. In ISE, enter:
+
+   ```set-Alias gitsh C:\path\to\your\copy\of\Start-GitShell.ps1```
+
 6. Save it
 7. Close ISE
 8. Close PowerShell
@@ -43,7 +47,7 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 10. Type "gitsh" and you should see something like this : 
 
         Gitshell Extensions - prompt will change when in a folder under git
-        using DWGitsh.Extensions v1.0.1.26911
+        using DWGitsh.Extensions v2019.6.1.1505
 
     _if you do not see the above, it likely means that something is wrong with the Set-Alias command above_
 
