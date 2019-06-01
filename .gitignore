@@ -15,3 +15,5 @@ UpgradeLog.htm
 /*/Deploy/*
 customColors.csv
 CustomGitPrompt.ps1
+
+!/Test/**/customColors.csv

@@ -43,10 +43,10 @@ namespace DWGitsh.Extensions.Tests.Utility.Colors
 
             if (_defaultColorFileText == null)
             {
-                _defaultColorFileText = EmbeddedResourceLoader.ReadAllText("Colors.defaultColors.csv");
+                _defaultColorFileText = TestHelper.GetTestData("Colors/defaultColors.csv");
                 _defaultColorFileTextLines = _defaultColorFileText?.Split('\n');
 
-                _customColorFileText = EmbeddedResourceLoader.ReadAllText("Colors.customColors.csv");
+                _customColorFileText = TestHelper.GetTestData("Colors/customColors.csv");
                 _customColorFileTextLines = _customColorFileText?.Split('\n');
             }
 
