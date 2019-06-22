@@ -20,9 +20,12 @@ namespace DWGitsh.Extensions.Commands.Git.Config
         protected static GitConfig ParseRawConfig(GitConfigParser parser, string text) { 
         if (string.IsNullOrWhiteSpace(text)) return null;
 
+            var result = new GitConfig();
+
             var allKeys = ParseRawGitConfigData(text);
 
-            var result = new GitConfig();
+            result.Values = allKeys.OrderBy(x=> x.Key).ToDictionary(x=> x.Key, x=> x.Value, StringComparer.InvariantCultureIgnoreCase);
+
 
             if (allKeys.ContainsKey("user.name") || allKeys.ContainsKey("user.email"))
             {
@@ -41,6 +44,7 @@ namespace DWGitsh.Extensions.Commands.Git.Config
 
             if (allKeys.ContainsKey("remote.origin.url"))
             {
+                result.RepoUrl = allKeys["remote.origin.url"]?.Replace(".git", "");
                 var url = new Uri(allKeys["remote.origin.url"]);
                 var vals = url.PathAndQuery.Trim('/').Split('/');
                 if (vals.Length > 0) result.RepoOwner = vals[0];

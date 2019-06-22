@@ -1,14 +1,12 @@
 ﻿using DWGitsh.Extensions.Commands.Git;
 using DWGitsh.Extensions.Commands.Git.Status;
 using DWGitsh.Extensions.Models;
+using DWGitsh.Extensions.Tests.Helpers;
 using DWGitsh.Extensions.Utility.ConsoleIO;
-using DWPowerShell.Utility;
 using NSubstitute;
 using NUnit.Framework;
 using StaticAbstraction;
-using System;
 using System.Linq;
-using System.Reflection;
 
 namespace DWGitsh.Extensions.Tests.Commands.Git.Status
 {
@@ -19,12 +17,10 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.Status
         protected IConsoleWriter _writer = null;
         protected IGitCommand _cmdlet = null;
 
-        private static Assembly _assembly;
 
         [SetUp]
         public void SetupTests()
         {
-            if (_assembly == null) _assembly = Assembly.GetExecutingAssembly();
             _console = Substitute.For<IConsole>();
             _writer = Substitute.For<IConsoleWriter>();
 
@@ -37,17 +33,11 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.Status
 
         }
 
-        protected string GetTestData(string resourceName)
-        {
-            var res = DWPSUtils.GetEmbeddedResource(_assembly, resourceName);
-            if (string.IsNullOrEmpty(res)) throw new ApplicationException($"Unable to find resource named {resourceName}");
-            return res;
-        }
 
         [Test]
         public void StatusContainsCopiedFile()
         {
-            var data = GetTestData("MultipleFilesWithCopy.txt");
+            var data = TestHelper.GetTestData("Status/Res/MultipleFilesWithCopy.txt");
 
             var parser = new GitStatusParser(_cmdlet);
             var result = parser.Parse(data);
@@ -62,7 +52,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.Status
         [Test]
         public void StatusForDetachedHead()
         {
-            var data = GetTestData("GitStatusDetachedHead.txt");
+            var data = TestHelper.GetTestData("Status/Res/GitStatusDetachedHead.txt");
 
             var parser = new GitStatusParser(_cmdlet);
             var result = parser.Parse(data);

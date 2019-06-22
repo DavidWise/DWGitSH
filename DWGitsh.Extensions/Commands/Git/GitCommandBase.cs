@@ -107,7 +107,7 @@ namespace DWGitsh.Extensions.Commands.Git
             if (useCache) resultOut = RepositoryDirectories.Cache.Get<TResult>(cacheName);
             this.CommandOutput = null;
 
-            if (resultOut == default(TResult))
+            if (resultOut == default(TResult) || !useCache)
             {
                 var execFolder = this.CommandExecFolder ?? RepositoryDirectories.RootFolder;
                 var writer = new ConsoleWriter();
@@ -152,8 +152,6 @@ namespace DWGitsh.Extensions.Commands.Git
 
         protected void AddItemToCache(IRepositoryPaths repoDirs, string cacheName, TResult value)
         {
-            if (repoDirs.IgnoreCache) return;
-
             if (this.CacheLinkFiles != null && this.CacheLinkFiles.Length>0)
             {
                 var tokens = new Dictionary<string, string>();
