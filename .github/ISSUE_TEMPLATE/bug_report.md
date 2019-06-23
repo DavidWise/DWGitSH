@@ -23,16 +23,17 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
+**Desktop/Tablet (please complete the following information):**
  - OS: [e.g. iOS]
  - Browser [e.g. chrome, safari]
  - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**git status output** if you are having an issue with the command line resetting to a `PS>` prompt, please include the output of a `git status` command. 
+
 
 **Additional context**
 Add any other context about the problem here.
+
+### Note: 
+Please do not include any confidential or proprietary information in any submissions to this repository as all issues are public.
+
