@@ -61,10 +61,10 @@
     <None Update="PSScripts\defaultColors.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="PSScripts\gitsh-LibUtils.ps1">
+    <None Update="PSScripts\DWGitsh-LibUtils.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="PSScripts\gitsh-PromptUtils.ps1">
+    <None Update="PSScripts\DWGitsh-PromptUtils.ps1">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="PSScripts\Start-GitShell.ps1">

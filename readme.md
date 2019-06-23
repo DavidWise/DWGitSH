@@ -1,7 +1,10 @@
 ﻿
-Light-duty alternative to git bash since git bash performs horribly on some systems that use a file monitoring package. 
+Light-duty and highly customizable alternative to git bash since Windows users expect certain behaviors that git bash does not conform to, most notably copy-paste. 
+Also, git bash performs horribly on systems that use a file monitoring package. 
 
-Keep in mind that this only makes the command-line itself faster, not git, so visual tools, like GitExtensions and SourceTree will still run very slowly on monitored systems.
+Keep in mind that this only makes the command-line itself faster, not git, so visual tools, like GitExtensions, Github Desktop and SourceTree will still run very slowly on monitored systems.
+
+![Default prompt][defaultPrompt]
 
 
 ## Features
@@ -9,26 +12,31 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 - Flexible prompt
   - Prompt becomes git bash like prompt when in a folder under a git repository
   - Shows ahead/behind on prompt
-  - Shows staged/unstaged (mostly)
+  - Shows staged/unstaged (mostly - see known issues)
   - Allows user-customized prompt
   - Switches to standard powershell prompt when not in a git repo folder
   - Highlights when git repo is still on `develop` or `master` branches
   - Highlights path when in a system folder
+  - Highlights relative path from git repo root when deeper in the repo
   
-- Colors can be customized with the ability to define color groups
+- Colors can be customized 
+- Color groups can be created and/or customized
 - Git Prompt can be customized as desired
 - cmdlets:
-  - `Get-GitDetails` - returns detailed information about the current repository in a form that can be used in subsequent PowerShell commands
-  - `Write-Text` - like Write-Host except that it can use the color groups defined for the shell, including the custom colors.  Custom color groups are also supported
-  - `Get-GitLog` - returns the git log as an object that can be manipulated in powershell.  Supports `-After` and `-Before` date restrictions as well as the built-in options that git log offers.
-  - `Get-GitConfig` - return an object that contains key information from the config as well as a list of all of the config values in a Dictionary<string, string>
-  - `Get-GitshVersion` - returns the current version number.  This is also shown when starting the shell
+  - **Get-GitDetails** - returns detailed information about the current repository in a form that can be used in subsequent PowerShell commands
+  - **Write-Text** - like Write-Host except that it can use the color groups defined for the shell, including the custom colors.  Custom color groups are also supported
+  - **Get-GitLog** - returns the git log as an object that can be manipulated in powershell.  Supports `-After` and `-Before` date restrictions as well as the built-in options that git log offers.
+  - **Get-GitConfig** - return an object that contains key information from the config as well as a list of all of the config values in a Dictionary<string, string>
+  - **Get-GitshVersion** - returns the current version number.  This is also shown when starting the shell
 
+##### Supports staging and ahead-behind
+![sample with staging and ahead-behind][defaultPromptWithStaging]
 
 # Setup
+_(Yeah, I know this needs simplification)_
 1. Clone the Repo
 2. Build it in Visual Studio
-3. Copy the contents of the `Gitsh.Extensions/Deploy` folder to a more permanent location on your local drive
+3. Copy the contents of the `DWGitsh.Extensions/Deploy` folder to a more permanent location on your local drive
 4. Start PowerShell and type 
     ```PowerShell
     if (!(Test-Path -Path $profile.CurrentUserAllHosts))
@@ -46,7 +54,7 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 9. Start PowerShell
 10. Type "gitsh" and you should see something like this : 
 
-        Gitshell Extensions - prompt will change when in a folder under git
+        DWGitshell Extensions - prompt will change when in a folder under git
         using DWGitsh.Extensions v2019.6.1.1505
 
     _if you do not see the above, it likely means that something is wrong with the Set-Alias command above_
@@ -65,7 +73,7 @@ For reference, whenever the prompt needs to query github, it will display the cu
 # Customization
 There are a few ways to customize this to the way you work.  Each way relies on a custom file to be created and placed in a specific location.  The reason for this is so that your customizations are not lost when you copy in in future updates.
 
-## Custom Color Groups
+### Custom Color Groups
 The pre-defined colors are broken into groups and defined in the `defaultColors.csv`.  In order to make custom colors:
 
 - Go to the directory where you copied the /Deploy files to in the installation
@@ -74,7 +82,7 @@ The pre-defined colors are broken into groups and defined in the `defaultColors.
 
 All colors use the [ConsoleColor](https://docs.microsoft.com/en-us/dotnet/api/system.consolecolor?view=netframework-4.7.2) enum so those are the only valid values
 
-## Custom Prompt
+### Custom Prompt
 Should the default prompt not suit you, you can override the prompt by creating a custom powershell script that renders the prompt you do want.  To do this you will need: 
 
  - a file named "CustomGitPrompt.ps1"
@@ -87,8 +95,8 @@ Additionally, if you create functions in the custom script that have the same na
 
 There is a sample start file named "_CustomGitPrompt.ps1" that can be used as a starting point
 
-## Related Tips
-### Shortcuts
+## Related Git Tips
+### Shortcuts / Aliases
 This utility does not support the shortcuts that are normally provided by GitBash.  However, those can easily be added to your local git config 
 
 ```
@@ -100,7 +108,14 @@ afterwards, you can just run the command below to get the status:
 
 ``git st``
 
-#### NOTE:
+### Default Text Editor
+If you are like me and use a custom text editor, this will come in handy. I use Notepad++ but this works for whichever one you use, just change the path and arguments accordingly
+```
+git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+```
+After that, any time git would normally launch its default editor or the Git Extensions editor, it will launch your custom editor
+
+# NOTE:
 The custom script is loaded and executed every time you press enter in powershell so avoid any heavy-duty code or long-running tasks
 
 
@@ -112,3 +127,8 @@ The custom script is loaded and executed every time you press enter in powershel
 ### Known Issues
 - There are some caching quirks that I'm still working through regarding staging counts so those numbers might be off occasionally
 - if an there is an error parsing the git status response, the set-prompt will not work, resulting in a prompt of "PS >".  I've only seen this twice so far.
+- interactive debugging only works in .Net Framework 4.8
+
+
+[defaultPrompt]: images/default_command_line.png
+[defaultPromptWithStaging]: images/default_ahead_staging.png

@@ -55,7 +55,7 @@ $dlls = [System.IO.Directory]::GetFiles($TargetDir, "*.dll")
 
 CopyFileIfDifferent "$($projDir)PSScripts\defaultColors.csv" $deployFolder 
 CopyFileIfDifferent "$($projDir)PSScripts\_CustomGitPrompt.ps1" $deployFolder 
-CopyFileIfDifferent "$($projDir)PSScripts\gitsh-LibUtils.ps1" $deployFolder
+CopyFileIfDifferent "$($projDir)PSScripts\DWGitsh-LibUtils.ps1" $deployFolder
 CopyFileIfDifferent "$($projDir)PSScripts\Start-GitShell.ps1" $deployFolder
 
 $dlls | % {
