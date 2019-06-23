@@ -1,5 +1,5 @@
 ﻿
-Light-duty alternative to git bash since Windows users expect certain behaviors that git bash does not conform to, most notably copy-paste. 
+Light-duty and highly customizable alternative to git bash since Windows users expect certain behaviors that git bash does not conform to, most notably copy-paste. 
 Also, git bash performs horribly on systems that use a file monitoring package. 
 
 Keep in mind that this only makes the command-line itself faster, not git, so visual tools, like GitExtensions, Github Desktop and SourceTree will still run very slowly on monitored systems.
@@ -12,13 +12,15 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 - Flexible prompt
   - Prompt becomes git bash like prompt when in a folder under a git repository
   - Shows ahead/behind on prompt
-  - Shows staged/unstaged (mostly)
+  - Shows staged/unstaged (mostly - see known issues)
   - Allows user-customized prompt
   - Switches to standard powershell prompt when not in a git repo folder
   - Highlights when git repo is still on `develop` or `master` branches
   - Highlights path when in a system folder
+  - Highlights relative path from git repo root when deeper in the repo
   
-- Colors can be customized with the ability to define color groups
+- Colors can be customized 
+- Color groups can be created and/or customized
 - Git Prompt can be customized as desired
 - cmdlets:
   - **Get-GitDetails** - returns detailed information about the current repository in a form that can be used in subsequent PowerShell commands
@@ -27,6 +29,7 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
   - **Get-GitConfig** - return an object that contains key information from the config as well as a list of all of the config values in a Dictionary<string, string>
   - **Get-GitshVersion** - returns the current version number.  This is also shown when starting the shell
 
+##### Supports staging and ahead-behind
 ![sample with staging and ahead-behind][defaultPromptWithStaging]
 
 # Setup
@@ -70,7 +73,7 @@ For reference, whenever the prompt needs to query github, it will display the cu
 # Customization
 There are a few ways to customize this to the way you work.  Each way relies on a custom file to be created and placed in a specific location.  The reason for this is so that your customizations are not lost when you copy in in future updates.
 
-## Custom Color Groups
+### Custom Color Groups
 The pre-defined colors are broken into groups and defined in the `defaultColors.csv`.  In order to make custom colors:
 
 - Go to the directory where you copied the /Deploy files to in the installation
@@ -79,7 +82,7 @@ The pre-defined colors are broken into groups and defined in the `defaultColors.
 
 All colors use the [ConsoleColor](https://docs.microsoft.com/en-us/dotnet/api/system.consolecolor?view=netframework-4.7.2) enum so those are the only valid values
 
-## Custom Prompt
+### Custom Prompt
 Should the default prompt not suit you, you can override the prompt by creating a custom powershell script that renders the prompt you do want.  To do this you will need: 
 
  - a file named "CustomGitPrompt.ps1"
