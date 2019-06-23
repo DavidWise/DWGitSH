@@ -36,7 +36,7 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 _(Yeah, I know this needs simplification)_
 1. Clone the Repo
 2. Build it in Visual Studio
-3. Copy the contents of the `Gitsh.Extensions/Deploy` folder to a more permanent location on your local drive
+3. Copy the contents of the `DWGitsh.Extensions/Deploy` folder to a more permanent location on your local drive
 4. Start PowerShell and type 
     ```PowerShell
     if (!(Test-Path -Path $profile.CurrentUserAllHosts))
@@ -54,7 +54,7 @@ _(Yeah, I know this needs simplification)_
 9. Start PowerShell
 10. Type "gitsh" and you should see something like this : 
 
-        Gitshell Extensions - prompt will change when in a folder under git
+        DWGitshell Extensions - prompt will change when in a folder under git
         using DWGitsh.Extensions v2019.6.1.1505
 
     _if you do not see the above, it likely means that something is wrong with the Set-Alias command above_
@@ -95,8 +95,8 @@ Additionally, if you create functions in the custom script that have the same na
 
 There is a sample start file named "_CustomGitPrompt.ps1" that can be used as a starting point
 
-## Related Tips
-### Shortcuts
+## Related Git Tips
+### Shortcuts / Aliases
 This utility does not support the shortcuts that are normally provided by GitBash.  However, those can easily be added to your local git config 
 
 ```
@@ -108,7 +108,14 @@ afterwards, you can just run the command below to get the status:
 
 ``git st``
 
-#### NOTE:
+### Default Text Editor
+If you are like me and use a custom text editor, this will come in handy. I use Notepad++ but this works for whichever one you use, just change the path and arguments accordingly
+```
+git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+```
+After that, any time git would normally launch its default editor or the Git Extensions editor, it will launch your custom editor
+
+# NOTE:
 The custom script is loaded and executed every time you press enter in powershell so avoid any heavy-duty code or long-running tasks
 
 
@@ -120,6 +127,7 @@ The custom script is loaded and executed every time you press enter in powershel
 ### Known Issues
 - There are some caching quirks that I'm still working through regarding staging counts so those numbers might be off occasionally
 - if an there is an error parsing the git status response, the set-prompt will not work, resulting in a prompt of "PS >".  I've only seen this twice so far.
+- interactive debugging only works in .Net Framework 4.8
 
 
 [defaultPrompt]: images/default_command_line.png

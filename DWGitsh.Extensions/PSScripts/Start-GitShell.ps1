@@ -7,10 +7,10 @@
 $Global:gitshData = @{
     ScriptRoot = $PSScriptRoot;
     NoColor = $NoColor.IsPresent;
-    UtilPath = [IO.Path]::Combine($PSScriptRoot, "gitsh-LibUtils.ps1")
+    UtilPath = [IO.Path]::Combine($PSScriptRoot, "DWGitsh-LibUtils.ps1")
 }
 
-write-host "Gitshell Extensions - prompt will change when in a folder under git" -ForegroundColor Cyan
+write-host "DWGitshell Extensions - prompt will change when in a folder under git" -ForegroundColor Cyan
 
 Function Global:prompt {
     . $Global:gitshData.UtilPath
