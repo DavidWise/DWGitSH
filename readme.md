@@ -1,7 +1,10 @@
 ﻿
-Light-duty alternative to git bash since git bash performs horribly on some systems that use a file monitoring package. 
+Light-duty alternative to git bash since Windows users expect certain behaviors that git bash does not conform to, most notably copy-paste. 
+Also, git bash performs horribly on systems that use a file monitoring package. 
 
-Keep in mind that this only makes the command-line itself faster, not git, so visual tools, like GitExtensions and SourceTree will still run very slowly on monitored systems.
+Keep in mind that this only makes the command-line itself faster, not git, so visual tools, like GitExtensions, Github Desktop and SourceTree will still run very slowly on monitored systems.
+
+![Default prompt][defaultPrompt]
 
 
 ## Features
@@ -18,14 +21,16 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 - Colors can be customized with the ability to define color groups
 - Git Prompt can be customized as desired
 - cmdlets:
-  - `Get-GitDetails` - returns detailed information about the current repository in a form that can be used in subsequent PowerShell commands
-  - `Write-Text` - like Write-Host except that it can use the color groups defined for the shell, including the custom colors.  Custom color groups are also supported
-  - `Get-GitLog` - returns the git log as an object that can be manipulated in powershell.  Supports `-After` and `-Before` date restrictions as well as the built-in options that git log offers.
-  - `Get-GitConfig` - return an object that contains key information from the config as well as a list of all of the config values in a Dictionary<string, string>
-  - `Get-GitshVersion` - returns the current version number.  This is also shown when starting the shell
+  - **Get-GitDetails** - returns detailed information about the current repository in a form that can be used in subsequent PowerShell commands
+  - **Write-Text** - like Write-Host except that it can use the color groups defined for the shell, including the custom colors.  Custom color groups are also supported
+  - **Get-GitLog** - returns the git log as an object that can be manipulated in powershell.  Supports `-After` and `-Before` date restrictions as well as the built-in options that git log offers.
+  - **Get-GitConfig** - return an object that contains key information from the config as well as a list of all of the config values in a Dictionary<string, string>
+  - **Get-GitshVersion** - returns the current version number.  This is also shown when starting the shell
 
+![sample with staging and ahead-behind][defaultPromptWithStaging]
 
 # Setup
+_(Yeah, I know this needs simplification)_
 1. Clone the Repo
 2. Build it in Visual Studio
 3. Copy the contents of the `Gitsh.Extensions/Deploy` folder to a more permanent location on your local drive
@@ -112,3 +117,7 @@ The custom script is loaded and executed every time you press enter in powershel
 ### Known Issues
 - There are some caching quirks that I'm still working through regarding staging counts so those numbers might be off occasionally
 - if an there is an error parsing the git status response, the set-prompt will not work, resulting in a prompt of "PS >".  I've only seen this twice so far.
+
+
+[defaultPrompt]: images/default_command_line.png
+[defaultPromptWithStaging]: images/default_ahead_staging.png

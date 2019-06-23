@@ -8,13 +8,20 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{E0CB93E9-4D1B-4F3B-BDF5-B9AD2CE7EC79}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		LICENSE = LICENSE
 		package.json = package.json
 		readme.md = readme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{25C42902-D23E-45A2-8C33-C58CAE2EA987}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWGitsh.Extensions.Tests", "Test\DWGitsh.Extensions.Tests\DWGitsh.Extensions.Tests.csproj", "{3A2E3B26-E3A3-4C6F-863D-0C71C845AEF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWGitsh.Extensions.Tests", "Test\DWGitsh.Extensions.Tests\DWGitsh.Extensions.Tests.csproj", "{3A2E3B26-E3A3-4C6F-863D-0C71C845AEF1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IssueTemplates", "IssueTemplates", "{45564358-393F-4EF5-9A8F-C0189D519620}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
+		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
