@@ -29,7 +29,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DWPowerShell.Utility" Version="0.0.4" />
-    <PackageReference Include="StaticAbstraction" Version="0.0.11" />
+    <PackageReference Include="StaticAbstraction" Version="0.1.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies">
