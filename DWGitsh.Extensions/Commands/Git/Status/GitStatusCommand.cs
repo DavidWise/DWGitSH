@@ -8,8 +8,9 @@ namespace DWGitsh.Extensions.Commands.Git.Status
         {
             Name = "Status";
             CacheName = "status";
-            Command = "git status --v";//  --ahead-behind";
-            CacheLinkFiles= new string[] {"index","FETCH_HEAD", "HEAD", "COMMIT_EDITMSG", "refs/remotes/origin/{branchName}"};
+            //Command = "git status --v";//  --ahead-behind";
+            Command = "git status";
+            CacheLinkFiles = new string[] {"index","FETCH_HEAD", "HEAD", "COMMIT_EDITMSG", "refs/remotes/origin/{branchName}"};
             Parser = new GitStatusParser(this);
 
             CommandExecFolder = repoDirs.CurrentPath;
