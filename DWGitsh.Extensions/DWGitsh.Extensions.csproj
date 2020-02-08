@@ -1,16 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;netcoreapp2.2;netcoreapp3.0;netstandard2.0;net46;net47</TargetFrameworks>
+    <TargetFrameworks>net48;netcoreapp2.2;netcoreapp3.0;netstandard2.0;netstandard2.1;net46;net47</TargetFrameworks>
     <Authors>David Wise</Authors>
     <Company />
     <Copyright>@2019 David Wise</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2019.06.01.1506</Version>
+    <Version>2019.10.19.1124</Version>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <UseNETCoreGenerator>true</UseNETCoreGenerator>
-    <AssemblyVersion>2019.06.01.1506</AssemblyVersion>
-    <FileVersion>2019.06.01.1506</FileVersion>
+    <AssemblyVersion>2019.10.19.1124</AssemblyVersion>
+    <FileVersion>2019.10.19.1124</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46'">
     <DefineConstants>NET46;NETFULL</DefineConstants>
@@ -31,8 +31,8 @@
     <DefineConstants>NETCORE30;NETCORE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DWPowerShell.Utility" Version="0.9.0" />
-    <PackageReference Include="StaticAbstraction" Version="0.9.0" />
+    <PackageReference Include="DWPowerShell.Utility" Version="0.9.0.1" />
+    <PackageReference Include="StaticAbstraction" Version="1.3.1" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies">
