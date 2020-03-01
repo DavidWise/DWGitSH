@@ -7,6 +7,7 @@ $script:sessionVars.Paths = @{}
 function InitEnv([string] $basePath) {
 
     if ($script:sessionVars.Initialized -eq $true) { return }
+    AddDWGitshAliases
 
     if ($script:sessionVars.ModuleLoaded -ne $true) {
         $needsModule = (get-module | where {$_.Name -eq "DWGitsh.Extensions" }) -eq $null
@@ -35,6 +36,14 @@ function InitEnv([string] $basePath) {
 	}
 
     $script:sessionVars.Initialized = $true
+}
+
+
+function AddDWGitshAliases() {
+    
+    if ((get-alias gcd) -eq $null) {
+        set-alias gcd Get-GitChangeDirectory -scope Global
+    }
 }
 
 
