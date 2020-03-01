@@ -7,6 +7,7 @@ $script:sessionVars.Paths = @{}
 function InitEnv([string] $basePath) {
 
     if ($script:sessionVars.Initialized -eq $true) { return }
+    AddDWGitshAliases
 
     if ($script:sessionVars.ModuleLoaded -ne $true) {
         $needsModule = (get-module | where {$_.Name -eq "DWGitsh.Extensions" }) -eq $null
@@ -26,7 +27,7 @@ function InitEnv([string] $basePath) {
          $env:Path = "$($env:Path);$basePath"
     }
 
-	$script:sessionVars.OriginalBackgroundColor = [Console]::BackgroundColor;
+	$script:sessionVars.OriginalBackgroundColor = [Console]::BackgroundColor
 
 	$script:sessionVars.CustomGitPromptScript = $null
 	$custPath = [IO.Path]::Combine($basePath, "CustomGitPrompt.ps1")
@@ -35,6 +36,22 @@ function InitEnv([string] $basePath) {
 	}
 
     $script:sessionVars.Initialized = $true
+}
+
+
+function SetDWGitshAlias([string] $alias, [string] $target) {
+    $curAlias = get-alias $alias
+
+    if ($curAlias -eq $null -or $curAlias.Definition -ne $target) {
+        set-alias $alias $target -scope Global
+    }
+}
+
+
+function AddDWGitshAliases() {
+    $helperDir = join-Path $script:sessionVars.Paths.ScriptPath "Helpers"
+
+    SetDWGitshAlias "gcd" (join-path $helperDir "GetGitChangeDirectory-Helper.ps1")
 }
 
 
@@ -139,7 +156,7 @@ function ShowGitPrompt($data) {
 
 
 function RenderOutput($data) {
-    if ($data.HasGit) { 
+    if ($data -ne $null -and $data.HasGit) { 
         ShowGitPrompt $data
     } else {
         ShowGeneralPrompt

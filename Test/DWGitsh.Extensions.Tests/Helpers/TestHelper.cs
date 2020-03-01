@@ -1,10 +1,7 @@
-﻿using DWPowerShell.Utility;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace DWGitsh.Extensions.Tests.Helpers
 {

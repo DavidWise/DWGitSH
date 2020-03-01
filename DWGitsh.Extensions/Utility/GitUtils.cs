@@ -7,6 +7,7 @@ using System;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DWGitsh.Extensions.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DWGitsh.Extensions.Utility
 {
     public interface IGitUtils
@@ -16,6 +17,8 @@ namespace DWGitsh.Extensions.Utility
         RepoPaths GetRepoPaths(string currentPath, bool noCache);
 
         string FixInvalidFileNameCharsInPath(string path);
+
+        string TrimTrailingSlash(string path);
     }
 
     public class GitUtils : IGitUtils
@@ -25,6 +28,8 @@ namespace DWGitsh.Extensions.Utility
         protected IStaticAbstraction _diskManager;
 
         protected ICacheContainer RepoCache;
+
+        protected static char[] _slashChars = new char[] {'\\', '/'};
 
         static GitUtils()
         {
@@ -75,8 +80,8 @@ namespace DWGitsh.Extensions.Utility
                     var item = _diskManager.File.ReadAllText(path);
                     if (!string.IsNullOrWhiteSpace(item))
                     {
-                        var pos = item.LastIndexOf('/');
-                        if (pos > 0) branch = item.Substring(pos + 1).Trim();
+                        var pos = item.IndexOf("/heads/");
+                        if (pos > 0) branch = item.Substring(pos + 7).Trim();
                     }
                 }
             }
@@ -135,7 +140,7 @@ namespace DWGitsh.Extensions.Utility
 
             var refPath = result.RootFolder ?? result.CurrentPath;
 
-            var cache = RepoCache.Get<CommandCache>(refPath);
+            var cache = RepoCache.Get<ICommandCache>(refPath);
             if (cache == null)
             {
                 cache = new CommandCache();
@@ -143,6 +148,17 @@ namespace DWGitsh.Extensions.Utility
             }
 
             result.Cache = cache;
+
+            return result;
+        }
+
+
+        public string TrimTrailingSlash(string path)
+        {
+            var result = path;
+
+            if (!string.IsNullOrEmpty(path))
+                result = result.TrimEnd(_slashChars);
 
             return result;
         }

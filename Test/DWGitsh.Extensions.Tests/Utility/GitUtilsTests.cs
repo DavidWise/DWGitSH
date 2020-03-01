@@ -126,43 +126,46 @@ namespace DWGitsh.Extensions.Tests.Utility
         }
 
         [Test]
-        public void GetBranchName_bad_flows()
+        public void GetBranchName_bad_flows_no_HEAD_file()
         {
             var repoPath = "C:\\junk\\folder\\.git\\";
+            var pathToHEADfile = "C:\\junk\\folder\\.git\\HEAD";
             var repoDirs = Substitute.For<IRepositoryPaths>();
             repoDirs.RepositoryFolder.Returns(repoPath);
 
-            _diskManager.File.Exists(Arg.Any<string>()).Returns(false);
+            _diskManager.File.Exists(pathToHEADfile).Returns(false);
+
+            var result = _gitUtils.GetBranchName(repoDirs);
+
+            _diskManager.File.Received(1).Exists(pathToHEADfile);
+            Assert.IsNull(result);
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("  ")]
+        [TestCase("\r\n")]
+        [TestCase("Unexpected Text")]
+        [TestCase("Unexpected Text/")]
+        [TestCase("Unexpected/Text/")]
+        public void GetBranchName_bad_flows_null(string testValue)
+        {
+            var repoPath = "C:\\junk\\folder\\.git\\";
+            var pathToHEADfile = "C:\\junk\\folder\\.git\\HEAD";
+            var repoDirs = Substitute.For<IRepositoryPaths>();
+            repoDirs.RepositoryFolder.Returns(repoPath);
+
+            _diskManager.File.Exists(pathToHEADfile).Returns(true);
+
+            _diskManager.File.ReadAllText(pathToHEADfile).Returns(testValue);
             Assert.IsNull(_gitUtils.GetBranchName(repoDirs));
-
-            _diskManager.File.Exists(Arg.Any<string>()).Returns(true);
-            _diskManager.File.ReadAllText(Arg.Any<string>()).Returns((string)null);
-            Assert.IsNull(_gitUtils.GetBranchName(repoDirs));
-
-            _diskManager.File.ReadAllText(Arg.Any<string>()).Returns("");
-            Assert.IsNull(_gitUtils.GetBranchName(repoDirs));
-
-            _diskManager.File.ReadAllText(Arg.Any<string>()).Returns("  ");
-            Assert.IsNull(_gitUtils.GetBranchName(repoDirs));
-
-            _diskManager.File.ReadAllText(Arg.Any<string>()).Returns("\r\n");
-            Assert.IsNull(_gitUtils.GetBranchName(repoDirs));
-
-            _diskManager.File.ReadAllText(Arg.Any<string>()).Returns("Unexpected Text");
-            Assert.IsNull(_gitUtils.GetBranchName(repoDirs));
-
-            _diskManager.File.ReadAllText(Arg.Any<string>()).Returns("Unexpected Text/");
-            Assert.AreEqual(string.Empty,_gitUtils.GetBranchName(repoDirs));
-
-            _diskManager.File.ReadAllText(Arg.Any<string>()).Returns("Unexpected/Text/");
-            Assert.AreEqual(string.Empty, _gitUtils.GetBranchName(repoDirs));
         }
 
 
-        [Test]
-        public void GetBranchName_valid_path()
+        [TestCase("branch_name")]
+        [TestCase("branch/name/full")]
+        public void GetBranchName_valid_path(string expected)
         {
-            var expected = "branch_name";
             var repoPath = "C:\\junk\\folder\\.git\\";
             var repoDirs = Substitute.For<IRepositoryPaths>();
             repoDirs.RepositoryFolder.Returns(repoPath);
@@ -174,6 +177,7 @@ namespace DWGitsh.Extensions.Tests.Utility
             _diskManager.File.ReadAllText(Arg.Any<string>()).Returns($"ref: refs/heads/{expected}   \r\n");
             Assert.AreEqual(expected, _gitUtils.GetBranchName(repoDirs));
         }
+
 
         #endregion
 
@@ -211,6 +215,7 @@ namespace DWGitsh.Extensions.Tests.Utility
 
         #endregion
 
+
         #region FixInvalidFileNameCharsInPath Tests
 
         [TestCase("", "")]
@@ -241,5 +246,36 @@ namespace DWGitsh.Extensions.Tests.Utility
         }
 
         #endregion
+
+
+        [TestCase(null, null)]
+        [TestCase("", "")]
+        [TestCase(" ", " ")]
+        [TestCase("\\", "")]
+        [TestCase("\\\\", "")]
+        [TestCase("path\\", "path")]
+        [TestCase("path\\\\", "path")]
+        [TestCase("path\\\\\\", "path")]
+        [TestCase("\\path", "\\path")]
+        [TestCase("\\path\\", "\\path")]
+        [TestCase("\\\\path", "\\\\path")]
+        [TestCase("\\path\\to\\somewhere", "\\path\\to\\somewhere")]
+        [TestCase("\\path\\to\\somewhere\\", "\\path\\to\\somewhere")]
+        [TestCase("/", "")]
+        [TestCase("//", "")]
+        [TestCase("path/", "path")]
+        [TestCase("path//", "path")]
+        [TestCase("path///", "path")]
+        [TestCase("/path", "/path")]
+        [TestCase("/path/", "/path")]
+        [TestCase("//path", "//path")]
+        [TestCase("/path/to/somewhere", "/path/to/somewhere")]
+        [TestCase("/path/to/somewhere/", "/path/to/somewhere")]
+        public void TrimTrailingSlash_tests(string value, string expected)
+        {
+            var result = _gitUtils.TrimTrailingSlash(value);
+
+            Assert.AreEqual(expected, result);
+        }
     }
 }

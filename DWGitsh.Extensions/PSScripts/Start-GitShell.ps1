@@ -21,6 +21,7 @@ Function Global:prompt {
 		. $script:sessionVars.CustomGitPromptScript
 	}
 
+    GCD -LogOnly
     ShowPrompt
     " " 
 }

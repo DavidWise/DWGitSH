@@ -1,12 +1,10 @@
 ﻿using DWGitsh.Extensions.Cmdlets;
 using DWGitsh.Extensions.Commands.PowerShell;
 using DWGitsh.Extensions.Utility.ConsoleIO;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 using StaticAbstraction;
 using System.Management.Automation;
-using System.Linq;
-using DWPowerShell.Utility.ConsoleIO;
 
 namespace DWGitsh.Extensions.Tests.Commands
 {

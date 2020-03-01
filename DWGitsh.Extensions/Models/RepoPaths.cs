@@ -9,7 +9,7 @@ namespace DWGitsh.Extensions.Models
         string CurrentPath { get; set; }
         string RelativePathToRoot { get; set; }
         string RelativePathToRepository { get; set; }
-        CommandCache Cache { get; set; }
+        ICommandCache Cache { get; set; }
         bool IgnoreCache { get; set; }
     }
 
@@ -20,7 +20,7 @@ namespace DWGitsh.Extensions.Models
         public string CurrentPath { get; set; }
         public string RelativePathToRoot { get; set; }
         public string RelativePathToRepository { get; set; }
-        public CommandCache Cache { get; set; }
+        public ICommandCache Cache { get; set; }
         public bool IgnoreCache { get; set; }
     }
 }
