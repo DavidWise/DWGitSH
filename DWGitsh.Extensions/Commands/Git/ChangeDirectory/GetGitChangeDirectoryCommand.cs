@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 {
@@ -16,8 +17,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 
         public bool ExitWithoutOutput { get; protected set; }
 
-        public IDirectoryInfo DataFolder { get; set; }
-
+        private HitDataManager _hitManager;
 
         public GetGitChangeDirectoryCommand(RepoPaths repoDirs, GetGitChangeDirectoryCommandOptions options) : base(repoDirs, false)
         {
@@ -26,27 +26,17 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
             this.ExitWithoutOutput = (this.RepositoryDirectories.RepositoryFolder == null || this.Options.LogOnly);
             this.Parser = new GetGitChangeDirectoryParser(this);
 
-            FindDataFolder();
+            _hitManager = new HitDataManager(_diskManager, repoDirs);
         }
 
-        protected void FindDataFolder()
-        {
-            if (this.DataFolder != null) return;
-            // LOH - need to get and create folders under appdata
-        }
+
 
         public void Process()
         {
-            if (Options.Log || Options.LogOnly) LogCurrentDirectory();
+            if (Options.Log || Options.LogOnly) _hitManager.LogCurrentDirectory();
 
             if (this.ExitWithoutOutput) return;
 
-
-        }
-
-        protected void LogCurrentDirectory()
-        {
-            if (this.RepositoryDirectories.RepositoryFolder == null) return;
 
         }
     }
