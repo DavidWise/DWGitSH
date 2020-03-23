@@ -49,14 +49,16 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
         }
 
 
-        public CommandData ReadHitData()
+        public virtual CommandData ReadHitData()
         {
+            if (_hitDataPath == null) FindDataFolder();
+
             CommandData result = null;
 
             if (_diskManager.File.Exists(_hitDataPath))
             {
                 var rawData = _diskManager.File.ReadAllText(_hitDataPath);
-                result = JsonConvert.DeserializeObject<CommandData>(_hitDataPath);
+                result = JsonConvert.DeserializeObject<CommandData>(rawData);
             }
             else
                 result = new CommandData();
@@ -64,7 +66,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
             return result;
         }
 
-        public void LogCurrentDirectory()
+        public virtual void LogCurrentDirectory()
         {
             if (this.RepositoryDirectories.RepositoryFolder == null) return;
 
@@ -87,6 +89,11 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
                 data.Repositories.Add(newHitData);
             }
 
+            WriteHitData(data);
+        }
+
+        protected void WriteHitData(CommandData data)
+        {
             var json = JsonConvert.SerializeObject(data);
             _diskManager.File.WriteAllText(_hitDataPath, json);
         }
