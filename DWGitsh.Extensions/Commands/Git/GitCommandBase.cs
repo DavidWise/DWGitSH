@@ -49,9 +49,12 @@ namespace DWGitsh.Extensions.Commands.Git
         public string CommandExecFolder { get; set; }
         public string CommandOutput { get; protected set; }
 
+
         public IGitCommandResultsParser<TResult> Parser { get; protected set; }
         public IRepositoryPaths RepositoryDirectories { get; protected set; }
         public ICmdletWriter CmdletWriter { get; set; }
+
+        public static string AppDataFolder { get; set; }
 
         protected GitCommandBase(RepoPaths repoDirs)
         {
@@ -81,6 +84,21 @@ namespace DWGitsh.Extensions.Commands.Git
             this.UseCache = useCache;
 
             _colorGroups = new ColorGroupReader(_diskManager);
+
+            FindAppDataFolder();
+        }
+
+        private void FindAppDataFolder()
+        {
+            if (AppDataFolder != null) return;
+
+            var basePath = _diskManager.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+            var dataFolder = _diskManager.Path.Combine(basePath, "DWGitsh");
+
+            if (!_diskManager.Directory.Exists(dataFolder)) _diskManager.Directory.CreateDirectory(dataFolder);
+
+            AppDataFolder = dataFolder;
         }
 
         protected virtual string BuildCacheName()

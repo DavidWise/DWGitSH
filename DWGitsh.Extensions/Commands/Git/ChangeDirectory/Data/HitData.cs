@@ -10,6 +10,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
     {
         public string Name { get; set; }
         public string Directory { get; set; }
+        public string Alias { get; set; }
         public int HitCount { get; set; }
         public DateTime DateLastHit { get; set; }
     }

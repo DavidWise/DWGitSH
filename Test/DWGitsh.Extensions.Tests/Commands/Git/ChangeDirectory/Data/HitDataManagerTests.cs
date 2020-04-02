@@ -19,21 +19,21 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
         private IStaticAbstraction _diskManager;
         private IFile _fileManager;
         private IRepositoryPaths _repoPaths;
-
+        private IHitDataRepo _hitRepo;
         private HitDataManager _manager;
         private string _localDataFolder = "C:\\Local\\Data\\Folder\\";
-        private string _localAppDataFolder = "C:\\Local\\Data\\Folder\\DWGitsh";
-        private string _localAppDataHitsFile = "C:\\Local\\Data\\Folder\\DWGitsh\\hitData.json";
+        private string _localAppDataFolder;
 
         [SetUp]
         public void Setup()
         {
+            _localAppDataFolder = $"{_localDataFolder}DWGitsh";
+
             _fileManager = Substitute.For<IFile>();
             _diskManager = Substitute.For<IStaticAbstraction>();
             _diskManager.File = _fileManager;
             _diskManager.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).Returns(_localDataFolder);
             _diskManager.Path.Combine(_localDataFolder, "DWGitsh").Returns(_localAppDataFolder);
-            _diskManager.Path.Combine(_localAppDataFolder, "hitData.json").Returns(_localAppDataHitsFile);
             _diskManager.Directory.Exists(_localAppDataFolder).Returns(true);
 
             _diskManager.NewDirectoryInfo(_localAppDataFolder).Returns(new MockDirectoryInfo { FullName = _localAppDataFolder, Name = "DWGitsh" });
@@ -42,42 +42,10 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
             _repoPaths.RootFolder.Returns("C:\\Junk\\Folder\\");
             _repoPaths.RepositoryFolder.Returns("C:\\Junk\\Folder\\.git\\");
 
-            _manager = new HitDataManager(_diskManager, _repoPaths);
-        }
+            _hitRepo = Substitute.For<IHitDataRepo>();
+            _manager = new HitDataManager(_localAppDataFolder, _diskManager, _repoPaths, null, _hitRepo);
 
-        [Test]
-        public void DataDirectory_finder()
-        {
-            Assert.AreEqual(_localAppDataFolder, _manager.DataFolder.FullName);
-        }
-
-        [Test]
-        public void ReadHitData_no_existing_file()
-        {
-            var data = _manager.ReadHitData();
-
-            _diskManager.Received(1).File.Exists(_localAppDataHitsFile);
-            Assert.NotNull(data);
-            Assert.NotNull(data.Repositories);
-        }
-
-        [Test]
-        public void ReadHitData_existing_file()
-        {
-            var expectedName = "Hello";
-            var expectedFolder = "There";
-
-            var expected = MockUpReadHitData(expectedName, expectedFolder);
-
-            var data = _manager.ReadHitData();
-
-            _fileManager.Received(1).Exists(_localAppDataHitsFile);
-            _fileManager.Received(1).ReadAllText(_localAppDataHitsFile);
-            Assert.NotNull(data);
-            Assert.NotNull(data.Repositories);
-            Assert.AreEqual(1, data.Repositories.Count);
-            Assert.AreEqual(expectedName, data.Repositories[0].Name);
-            Assert.AreEqual(expectedFolder, data.Repositories[0].Directory);
+            _hitRepo.Load().Returns(new CommandData());
         }
 
 
@@ -85,89 +53,63 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
         public void LogCurrentDirectory_existingDir_incrementsHitCount()
         {
             var expectedName = "Hello";
-            var expectedFolder = "C:\\Junk\\Folder\\.git\\";
+            var expectedFolder = "C:\\Junk\\Folder\\";
 
-            var expected = MockUpReadHitData(expectedName, expectedFolder);
+            var expected = HitDataTestHelper.BuildHelperData(expectedName, expectedFolder);
 
+            _hitRepo.Load().Returns(expected);
             _repoPaths.RepositoryFolder.Returns(expectedFolder);
 
             _manager.LogCurrentDirectory();
 
-            _fileManager.Received(1).WriteAllText(_localAppDataHitsFile, 
-                Arg.Is<string>(s => JsonConvert.DeserializeObject<CommandData>(s).Repositories[0].HitCount == 2));
-
+            _hitRepo.Received(1).Save(Arg.Is<CommandData>(s => s.Repositories[0].HitCount == 2));
         }
 
 
         [Test]
         public void LogCurrentDirectory_newDir_nopreviousdata()
         {
-            var expectedName = "Hello";
-            var expectedFolder = "C:\\Junk\\Folder\\.git\\";
+            var expectedFolder = "C:\\Junk\\Folder\\";
 
+            _repoPaths.RootFolder.Returns(expectedFolder);
             _repoPaths.RepositoryFolder.Returns(expectedFolder);
 
             _manager.LogCurrentDirectory();
 
-            _fileManager.Received(1).WriteAllText(_localAppDataHitsFile,
-                Arg.Is<string>(s => LogCurrentDirectory_newDir_nopreviousdata_validator(expectedFolder,s)));
+            _hitRepo.Received(1).Save(Arg.Is<CommandData>(s =>
+                LogCurrentDirectory_newDir_nopreviousdata_validator(s, expectedFolder)
+            ));
         }
 
-        private bool LogCurrentDirectory_newDir_nopreviousdata_validator(string folderName, string s)
+        private bool LogCurrentDirectory_newDir_nopreviousdata_validator(CommandData result, string expectedFolder)
         {
-            var passedTest = false;
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Repositories);
+            Assert.AreEqual(1, result.Repositories.Count);
+            Assert.AreEqual(expectedFolder, result.Repositories[0].Directory);
+            Assert.AreEqual(1, result.Repositories[0].HitCount);
 
-            var data = JsonConvert.DeserializeObject<CommandData>(s);
-            Assert.NotNull(data);
-            Assert.NotNull(data.Repositories);
-            Assert.AreEqual(1, data.Repositories.Count);
-            Assert.AreEqual(folderName, data.Repositories[0].Directory);
-            Assert.AreEqual(1, data.Repositories[0].HitCount);
-            passedTest = true;
-
-            return passedTest;
+            return true;
         }
+    }
 
 
-
-
-        #region helper methods
-
-        private CommandData MockUpReadHitData()
+    class HitDataTestHelper
+    {
+        public static CommandData BuildHelperData(string name, string repoRootDir, int hitCount = 1)
         {
-            return MockUpReadHitData("SampleName", _localAppDataFolder, 1);
-        }
-        private CommandData MockUpReadHitData(string name, string repoDir, int hitCount = 1)
-        {
-            var data = BuildHelperData(name, repoDir, hitCount);
-            return MockUpReadHitData(data);
-        }
-
-        private CommandData MockUpReadHitData(CommandData returnData)
-        {
-            string data = null;
-            if (returnData != null)
-                data = returnData.ToJson();
-
-            _fileManager.Exists(_localAppDataHitsFile).Returns(data != null);
-            _fileManager.ReadAllText(_localAppDataHitsFile).Returns(data);
-
-            return returnData;
-        }
-
-        private CommandData BuildHelperData(string name, string repoDir, int hitCount = 1)
-        {
+            var baseData = new CommandData();
             var dateLastHit = DateTime.Now.AddMinutes(-5);
-            return new CommandData
-            {
-                Repositories = new List<HitData> {
-                    new HitData { Directory = repoDir, Name = name, HitCount = hitCount, DateLastHit = dateLastHit }
-                }
-            };
+
+            baseData.Repositories.Add(new HitData { 
+                Name = name, 
+                Directory = repoRootDir, 
+                DateLastHit = dateLastHit, 
+                HitCount = hitCount 
+            });
+
+            return baseData;
         }
-
-
-        #endregion
     }
 
     static class CommandDataTestExtensions

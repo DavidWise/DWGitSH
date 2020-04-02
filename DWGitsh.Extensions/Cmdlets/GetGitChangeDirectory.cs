@@ -7,52 +7,42 @@ using System.Management.Automation;
 namespace DWGitsh.Extensions.Cmdlets
 {
     [Cmdlet(VerbsCommon.Get,"GitChangeDirectory")]
-    [OutputType(typeof(GitChangeDirectoryResult))]
-    public class GetGitChangeDirectory : GitCmdletBase<GitChangeDirectoryResult>
+    [OutputType(typeof(GitChangeDirectoryInfo))]
+    public class GetGitChangeDirectory : GitCmdletBase<GitChangeDirectoryInfo>
     {
+        [Parameter]
+        public string NameOrAlias { get; set; }
+
         [Parameter]
         public SwitchParameter Log;
         [Parameter]
         public SwitchParameter LogOnly;
         [Parameter]
         public SwitchParameter Last;
+        [Parameter]
+        public SwitchParameter List;
 
         public GetGitChangeDirectory() : base() { }
 
-        protected override GitChangeDirectoryResult BuildResponse()
+        protected override GitChangeDirectoryInfo BuildResponse()
         {
-            GitChangeDirectoryResult result = null;
-
             var options = new GetGitChangeDirectoryCommandOptions
             {
                 Log = this.Log.IsPresent || this.LogOnly.IsPresent,
                 LogOnly = this.LogOnly.IsPresent,
-                Last = this.Last.IsPresent
+                Last = this.Last.IsPresent,
+                List = this.List.IsPresent
             };
 
             var cmd = new GetGitChangeDirectoryCommand(this.RepositoryDirectories, options);
+            var cmdResult = cmd.Process();
 
             // no output is produced for commands that trigger exitnow
-            if (cmd.ExitWithoutOutput) return result;
+            if (cmd.ExitWithoutOutput) return cmdResult;
 
-            return new GitChangeDirectoryResult("Hi from GetGitChangeDirectory");
-        }
-    }
+            // assuming something written to client here
 
-    public class GitChangeDirectoryResult
-    {
-        private string _message;
-        public GitChangeDirectoryResult()
-        {
-
-        }
-        public GitChangeDirectoryResult(string msg)
-        {
-            _message = msg;
-        }
-        public override string ToString()
-        {
-            return _message;
+            return cmdResult;
         }
     }
 }

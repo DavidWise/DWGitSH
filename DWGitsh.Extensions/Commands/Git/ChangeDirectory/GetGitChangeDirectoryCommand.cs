@@ -26,21 +26,27 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
             this.ExitWithoutOutput = (this.RepositoryDirectories.RepositoryFolder == null || this.Options.LogOnly);
             this.Parser = new GetGitChangeDirectoryParser(this);
 
-            _hitManager = new HitDataManager(_diskManager, repoDirs);
+            _hitManager = new HitDataManager(AppDataFolder, _diskManager, repoDirs);
         }
 
 
 
-        public void Process()
+        public GitChangeDirectoryInfo Process()
         {
+            var result = new GitChangeDirectoryInfo
+            { 
+                Options = this.Options
+            };
+
+            if (Options.Last) result.LastPath = _hitManager.GetLastUsedFolder();
+
             if (Options.Log || Options.LogOnly) _hitManager.LogCurrentDirectory();
 
-            if (this.ExitWithoutOutput) return;
+            if (this.ExitWithoutOutput) return result;
 
-
+            return result;
         }
     }
-
 
 
     public class GetGitChangeDirectoryCommandOptions
@@ -48,5 +54,6 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
         public bool Log { get; set;  }
         public bool LogOnly { get; set;  }
         public bool Last { get; set;  }
+        public bool List { get; set;  }
     }
 }
