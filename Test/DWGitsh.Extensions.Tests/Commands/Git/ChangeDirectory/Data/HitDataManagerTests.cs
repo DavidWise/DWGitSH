@@ -91,33 +91,27 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
 
             return true;
         }
-    }
 
-
-    class HitDataTestHelper
-    {
-        public static CommandData BuildHelperData(string name, string repoRootDir, int hitCount = 1)
+        [Test]
+        public void GetLastUsedFolder_noData()
         {
-            var baseData = new CommandData();
-            var dateLastHit = DateTime.Now.AddMinutes(-5);
+            var result = _manager.GetLastUsedFolder();
 
-            baseData.Repositories.Add(new HitData { 
-                Name = name, 
-                Directory = repoRootDir, 
-                DateLastHit = dateLastHit, 
-                HitCount = hitCount 
-            });
-
-            return baseData;
+            Assert.IsNull(result);
         }
-    }
 
-    static class CommandDataTestExtensions
-    {
-        public static string ToJson(this CommandData data)
+        [Test]
+        public void GetLastUsedFolder_withData()
         {
-            if (data == null) return string.Empty;
-            return JsonConvert.SerializeObject(data);
+            var data = HitDataTestHelper.CommandData_MultipleValues;
+
+            var expected = data.Repositories.OrderByDescending(x => x.DateLastHit).First();
+
+            _hitRepo.Load().Returns(data);
+
+            var result = _manager.GetLastUsedFolder();
+
+            Assert.AreEqual(expected.Directory, result);
         }
     }
 }

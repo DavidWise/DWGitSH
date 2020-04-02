@@ -72,7 +72,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
         {
             string data = null;
             if (returnData != null)
-                data = returnData.ToJson();
+                data = HitDataTestHelper.ConvertToJson(returnData);
 
             _fileManager.Exists(_localAppDataHitsFile).Returns(data != null);
             _fileManager.ReadAllText(_localAppDataHitsFile).Returns(data);
