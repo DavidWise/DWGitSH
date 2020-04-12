@@ -75,5 +75,12 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
         }
 
 
+        public virtual List<HitData> GetHitList()
+        {
+            var data = _hitDataRepo.Load();
+            return data.Repositories;
+        }
+
+
     }
 }

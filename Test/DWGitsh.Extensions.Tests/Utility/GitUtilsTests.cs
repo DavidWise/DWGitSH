@@ -211,6 +211,7 @@ namespace DWGitsh.Extensions.Tests.Utility
 
         #endregion
 
+
         #region FixInvalidFileNameCharsInPath Tests
 
         [TestCase("", "")]
@@ -241,5 +242,36 @@ namespace DWGitsh.Extensions.Tests.Utility
         }
 
         #endregion
+
+
+        [TestCase(null, null)]
+        [TestCase("", "")]
+        [TestCase(" ", " ")]
+        [TestCase("\\", "")]
+        [TestCase("\\\\", "")]
+        [TestCase("path\\", "path")]
+        [TestCase("path\\\\", "path")]
+        [TestCase("path\\\\\\", "path")]
+        [TestCase("\\path", "\\path")]
+        [TestCase("\\path\\", "\\path")]
+        [TestCase("\\\\path", "\\\\path")]
+        [TestCase("\\path\\to\\somewhere", "\\path\\to\\somewhere")]
+        [TestCase("\\path\\to\\somewhere\\", "\\path\\to\\somewhere")]
+        [TestCase("/", "")]
+        [TestCase("//", "")]
+        [TestCase("path/", "path")]
+        [TestCase("path//", "path")]
+        [TestCase("path///", "path")]
+        [TestCase("/path", "/path")]
+        [TestCase("/path/", "/path")]
+        [TestCase("//path", "//path")]
+        [TestCase("/path/to/somewhere", "/path/to/somewhere")]
+        [TestCase("/path/to/somewhere/", "/path/to/somewhere")]
+        public void TrimTrailingSlash_tests(string value, string expected)
+        {
+            var result = _gitUtils.TrimTrailingSlash(value);
+
+            Assert.AreEqual(expected, result);
+        }
     }
 }

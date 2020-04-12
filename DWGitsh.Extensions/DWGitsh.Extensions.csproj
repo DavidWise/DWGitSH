@@ -79,6 +79,9 @@
     <None Update="PSScripts\DWGitsh-PromptUtils.ps1">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="PSScripts\Helpers\GetGitChangeDirectory-helper.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="PSScripts\Start-GitShell.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -88,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Deploy\" />
+    <Folder Include="PSScripts\Helpers\" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="c:\windows\sysnative\windowspowershell\v1.0\powershell.exe -NoLogo -NoProfile $(ProjectDir)PostBuild.ps1 -ProjectDir $(ProjectDir) -TargetDir $(TargetDir)" />

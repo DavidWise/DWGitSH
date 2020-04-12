@@ -38,14 +38,46 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
                 Options = this.Options
             };
 
-            if (Options.Last) result.LastPath = _hitManager.GetLastUsedFolder();
-
-            if (Options.Log || Options.LogOnly) _hitManager.LogCurrentDirectory();
+            Action_LastDirectory(result);
+            Action_Log(result);
 
             if (this.ExitWithoutOutput) return result;
 
+            Action_List(result); 
+
             return result;
         }
+
+        #region Command Actions
+
+        protected void Action_LastDirectory(GitChangeDirectoryInfo info)
+        {
+            if (Options.Last) info.TargetDirectory = _hitManager.GetLastUsedFolder();
+        }
+
+
+        protected void Action_Log(GitChangeDirectoryInfo info)
+        {
+            if (Options.Log || Options.LogOnly) _hitManager.LogCurrentDirectory();
+        }
+
+
+        protected void Action_List(GitChangeDirectoryInfo info)
+        {
+            IEnumerable<HitDataViewModel> data = null;
+
+            if (!Options.List) 
+                data = new List<HitDataViewModel>().AsEnumerable();
+            else 
+                data = _hitManager.GetHitList()
+                    .OrderByDescending(x => x.HitCount)
+                    .ThenBy(x => x.Directory)
+                    .ToViewModel();
+
+            info.ListData = data;
+        }
+
+        #endregion
     }
 
 
