@@ -80,8 +80,8 @@ namespace DWGitsh.Extensions.Utility
                     var item = _diskManager.File.ReadAllText(path);
                     if (!string.IsNullOrWhiteSpace(item))
                     {
-                        var pos = item.LastIndexOf('/');
-                        if (pos > 0) branch = item.Substring(pos + 1).Trim();
+                        var pos = item.IndexOf("/heads/");
+                        if (pos > 0) branch = item.Substring(pos + 7).Trim();
                     }
                 }
             }

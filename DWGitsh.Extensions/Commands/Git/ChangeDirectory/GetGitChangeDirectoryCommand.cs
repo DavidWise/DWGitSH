@@ -43,6 +43,8 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 
             if (this.ExitWithoutOutput) return result;
 
+            Action_NameOrAlias(result);
+
             Action_List(result); 
 
             return result;
@@ -59,6 +61,20 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
         protected void Action_Log(GitChangeDirectoryInfo info)
         {
             if (Options.Log || Options.LogOnly) _hitManager.LogCurrentDirectory();
+        }
+
+        protected void Action_NameOrAlias(GitChangeDirectoryInfo info)
+        {
+            var targetName = this.Options.NameOrAlias?.Trim();
+            if (string.IsNullOrEmpty(targetName)) return;
+
+            if (targetName == "/" || targetName == "\\")
+            {
+                info.TargetDirectory = this.RepositoryDirectories.RootFolder;
+                return;
+            }
+
+            // TODO: Handle partial matches, aliases, etc..
         }
 
 
@@ -83,6 +99,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 
     public class GetGitChangeDirectoryCommandOptions
     {
+        public string NameOrAlias { get; set;  }
         public bool Log { get; set;  }
         public bool LogOnly { get; set;  }
         public bool Last { get; set;  }

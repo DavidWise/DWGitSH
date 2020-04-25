@@ -42,7 +42,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
 
         public virtual void Save(CommandData data)
         {
-            var json = JsonConvert.SerializeObject(data);
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented);
             _diskManager.File.WriteAllText(_hitDataPath, json);
         }
     }

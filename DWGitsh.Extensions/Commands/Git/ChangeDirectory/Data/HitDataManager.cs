@@ -39,6 +39,8 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
             var updated = false;
             var compareFolder = _utils.TrimTrailingSlash(this.RepositoryDirectories.RootFolder);
 
+            var branch = _utils.GetBranchName(this.RepositoryDirectories);
+
             foreach (var item in data.Repositories)
             {
                 var itemFolder = _utils.TrimTrailingSlash(item.Directory);
@@ -46,6 +48,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
                 {
                     item.HitCount++;
                     item.DateLastHit = DateTime.Now;
+                    if (!string.IsNullOrEmpty(branch)) item.LastBranch = branch;
                     updated = true;
                 }
             }
@@ -74,13 +77,10 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
             return result;
         }
 
-
         public virtual List<HitData> GetHitList()
         {
             var data = _hitDataRepo.Load();
             return data.Repositories;
         }
-
-
     }
 }

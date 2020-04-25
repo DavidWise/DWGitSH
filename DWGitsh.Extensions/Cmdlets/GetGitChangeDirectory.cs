@@ -10,7 +10,7 @@ namespace DWGitsh.Extensions.Cmdlets
     [OutputType(typeof(GitChangeDirectoryInfo))]
     public class GetGitChangeDirectory : GitCmdletBase<GitChangeDirectoryInfo>
     {
-        [Parameter]
+        [Parameter(Position = 0)]
         public string NameOrAlias { get; set; }
 
         [Parameter]
@@ -28,6 +28,7 @@ namespace DWGitsh.Extensions.Cmdlets
         {
             var options = new GetGitChangeDirectoryCommandOptions
             {
+                NameOrAlias = this.NameOrAlias,
                 Log = this.Log.IsPresent || this.LogOnly.IsPresent,
                 LogOnly = this.LogOnly.IsPresent,
                 Last = this.Last.IsPresent,

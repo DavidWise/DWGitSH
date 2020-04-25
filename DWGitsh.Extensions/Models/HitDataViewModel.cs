@@ -9,16 +9,22 @@ namespace DWGitsh.Extensions.Models
 {
     public class HitDataViewModel
     {
+        public uint Ordinal { get; set; }
         public string Name { get; set; }
         public string Directory { get; set; }
         public string Alias { get; set; }
+        public string LastBranch { get; set; }
         public int HitCount { get; set; }
         public DateTime DateLastHit { get; set; }
+
+        public bool HasAlias =>  !string.IsNullOrEmpty(this.Alias);
+        public bool HasName =>  !string.IsNullOrEmpty(this.Name);
+        public bool HasBranch =>  !string.IsNullOrEmpty(this.LastBranch);
     }
 
     internal static class HitDataViewModelMapper
     {
-        public static HitDataViewModel ToViewModel(this HitData data)
+        public static HitDataViewModel ToViewModel(this HitData data, uint ordinal)
         {
             HitDataViewModel result = null;
 
@@ -26,9 +32,11 @@ namespace DWGitsh.Extensions.Models
             {
                 result = new HitDataViewModel
                 {
+                    Ordinal = ordinal,
                     Alias = data.Alias,
                     Name = data.Name,
-                    Directory = data.Directory,
+                    Directory = data.Directory?.TrimEnd('/', '\\'),
+                    LastBranch = data.LastBranch,
                     HitCount = data.HitCount,
                     DateLastHit = data.DateLastHit
                 };
@@ -43,7 +51,8 @@ namespace DWGitsh.Extensions.Models
 
             if (data != null)
             {
-                result = data.Select(x => x.ToViewModel());
+                uint pos = 0;
+                result = data.Select(x => x.ToViewModel(pos++));
             }
 
             return result;
