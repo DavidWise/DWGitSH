@@ -18,3 +18,5 @@ gcd-list-number, gray
 gcd-list-name, White
 gcd-list-alias, Yellow
 gcd-list-branch, Red
+gcd-list-title, Cyan
+gcd-list-prompt, Green

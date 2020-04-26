@@ -16,22 +16,60 @@ function Action_Last([DWGitsh.Extensions.Models.GitChangeDirectoryInfo] $cmdOutp
     }
 }
 
+
+function RenderRepoList($listData) {
+    write-text " "
+    Write-text "Recent Repositories:" -colorgroup gcd-list-title
+    write-text " "
+    $listData | % {
+        Write-text "   $($_.Ordinal)" -colorgroup gcd-list-number -ForceColorReset -NoNewLine
+        Write-text "   $($_.Directory)" -colorgroup gcd-list-name -ForceColorReset -NoNewLine
+
+        if ($_.HasAlias) {
+            Write-text "   $($_.Alias)" -colorgroup gcd-list-name -ForceColorReset -NoNewLine
+        }
+
+        if ($_.HasBranch) {
+            $colorGroup = ",gcd-list-branch,"
+            Write-text "   (|$($_.LastBranch)|)" $colorGroup -ForceColorReset -NoNewLine -TextSplit "|"
+        }
+
+        write-text " "
+    }
+    write-text " "
+}
+
+
 function Action_List([DWGitsh.Extensions.Models.GitChangeDirectoryInfo] $cmdOutput) {
-    if ($list.IsPresent -and $cmdOutput.ListData -ne $null ) {
-        $cmdOutput.ListData | % {
-            Write-text "   $($_.Ordinal)" -colorgroup gcd-list-number -ForceColorReset -NoNewLine
-            Write-text "   $($_.Directory)" -colorgroup gcd-list-name -ForceColorReset -NoNewLine
+    if ($cmdOutput.Options.List -eq $false -or  $cmdOutput.ListData -eq $null ) { return }
 
-            if ($_.HasAlias) {
-                Write-text "   $($_.Alias)" -colorgroup gcd-list-name -ForceColorReset -NoNewLine
+    RenderRepoList $cmdOutput.ListData
+
+
+    if ($cmdOutput.PromptForListSelector -eq $true) {
+        $done = $false
+        $listItems = $cmdOutput.ListData
+
+        while (-not $done) {
+            Write-text "Enter a number, an alias or part of a path: " -colorgroup gcd-list-prompt -ForceColorReset -NoNewLine
+            $userChoice = Read-host
+
+            if ($userChoice -eq $null -or $userChoice -eq "" -or $userChoice -eq "q" -or $userChoice -eq "exit" -or $userChoice -eq "quit") { 
+                $done = $true
+            } else {
+                $matchingItems = [DWGitsh.Extensions.Commands.Git.ChangeDirectory.GetGitChangeDirectoryCommand]::ResolveMatches($userChoice, $listItems)
+
+                $matchCount = ($matchingItems | Measure-Object| Select Count).Count
+
+                if ($matchCount -eq 1) {
+                    $matchedItem = $matchingItems | Select -First 1
+                    Set-Location $matchedItem.Directory 
+                    $done = $true
+				} else {
+                    $listItems = $matchingItems
+                    RenderRepoList $listItems
+				}
             }
-
-            if ($_.HasBranch) {
-                $colorGroup = ",gcd-list-branch,"
-                Write-text "   (|$($_.LastBranch)|)" $colorGroup -ForceColorReset -NoNewLine -TextSplit "|"
-            }
-
-            write-text " "
         }
     }
 }

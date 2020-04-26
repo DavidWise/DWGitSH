@@ -11,5 +11,7 @@ namespace DWGitsh.Extensions.Models
         public IEnumerable<HitDataViewModel> ListData { get; set; }
 
         public GetGitChangeDirectoryCommandOptions Options { get; set; }
+
+        public bool PromptForListSelector { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace DWGitsh.Extensions.Models
         public bool HasAlias =>  !string.IsNullOrEmpty(this.Alias);
         public bool HasName =>  !string.IsNullOrEmpty(this.Name);
         public bool HasBranch =>  !string.IsNullOrEmpty(this.LastBranch);
+
     }
 
     internal static class HitDataViewModelMapper
@@ -30,6 +31,7 @@ namespace DWGitsh.Extensions.Models
 
             if (data != null)
             {
+                System.Diagnostics.Debug.WriteLine($"Setting to {ordinal}");
                 result = new HitDataViewModel
                 {
                     Ordinal = ordinal,
@@ -45,14 +47,30 @@ namespace DWGitsh.Extensions.Models
             return result;
         }
 
+
         public static IEnumerable<HitDataViewModel> ToViewModel(this IEnumerable<HitData> data)
         {
             IEnumerable<HitDataViewModel> result = null;
 
             if (data != null)
             {
-                uint pos = 0;
+                uint pos = 1;
                 result = data.Select(x => x.ToViewModel(pos++));
+            }
+
+            return result;
+        }
+
+
+        public static IEnumerable<HitDataViewModel> FixOrdinal(this IEnumerable<HitDataViewModel> data)
+        {
+            var result = data;
+            uint pos = 1;
+
+            if (result != null)
+            {
+                foreach (var item in result)
+                    item.Ordinal = pos++;
             }
 
             return result;

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
+using DWGitsh.Extensions.Utility;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 {
@@ -17,13 +18,16 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 
         public bool ExitWithoutOutput { get; protected set; }
 
+        protected bool IsUnderGitRepo =>  (this.RepositoryDirectories != null && this.RepositoryDirectories.RepositoryFolder != null);
+
+
         private HitDataManager _hitManager;
 
         public GetGitChangeDirectoryCommand(RepoPaths repoDirs, GetGitChangeDirectoryCommandOptions options) : base(repoDirs, false)
         {
             this.Options = options;
 
-            this.ExitWithoutOutput = (this.RepositoryDirectories.RepositoryFolder == null || this.Options.LogOnly);
+            this.ExitWithoutOutput = this.Options.LogOnly;
             this.Parser = new GetGitChangeDirectoryParser(this);
 
             _hitManager = new HitDataManager(AppDataFolder, _diskManager, repoDirs);
@@ -43,10 +47,10 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 
             if (this.ExitWithoutOutput) return result;
 
-            Action_NameOrAlias(result);
-
             Action_List(result); 
 
+            Action_NameOrAlias(result);
+            
             return result;
         }
 
@@ -60,13 +64,22 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 
         protected void Action_Log(GitChangeDirectoryInfo info)
         {
+            if (!IsUnderGitRepo) return;
             if (Options.Log || Options.LogOnly) _hitManager.LogCurrentDirectory();
         }
 
         protected void Action_NameOrAlias(GitChangeDirectoryInfo info)
         {
             var targetName = this.Options.NameOrAlias?.Trim();
-            if (string.IsNullOrEmpty(targetName)) return;
+            var listData = GetHitListData();
+
+            if (string.IsNullOrEmpty(targetName))
+            {
+                info.ListData = listData;
+                info.Options.List = true;
+                info.PromptForListSelector = true;
+                return;
+            }
 
             if (targetName == "/" || targetName == "\\")
             {
@@ -74,7 +87,70 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
                 return;
             }
 
-            // TODO: Handle partial matches, aliases, etc..
+            if (targetName == "-")
+            {
+                var target = listData.OrderByDescending(x => x.DateLastHit)
+                    .FirstOrDefault(x => x.Directory.IsSameFolder(this.RepositoryDirectories.RootFolder) == false);
+
+                if (target != null)
+                {
+                    info.TargetDirectory = target.Directory;
+                    return;
+                }
+            }
+
+            var matches = ResolveMatches(targetName, listData);
+            if (matches.Count() == 1)
+            {
+                info.TargetDirectory = matches.Single().Directory;
+                return;
+            }
+
+            info.ListData = matches;
+            info.Options.List = true;
+            info.PromptForListSelector = true;
+        }
+
+        public static IEnumerable<HitDataViewModel> ResolveMatches(string value, IEnumerable<HitDataViewModel> data )
+        {
+            var matches = FindMatches(value, data);
+
+            if (matches == null) matches = data;
+
+            return matches.FixOrdinal();
+        }
+
+        protected static IEnumerable<HitDataViewModel> FindMatches(string value, IEnumerable<HitDataViewModel> data)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return null;
+
+            // match on ordinal first
+            int pos = 0;
+            if (Int32.TryParse(value, out pos))
+            {
+                var match = data.SingleOrDefault(x => x.Ordinal == pos);
+
+                if (match != null)
+                {
+                    return new List<HitDataViewModel> { match };
+                }
+            }
+
+            // now match on Alias
+            var matches = data.Where(x => string.Compare(value, x.Alias, StringComparison.InvariantCultureIgnoreCase) == 0);
+            if (matches != null && matches.Any())
+            {
+                return matches.ToArray();
+            }
+
+            // now try to find a partial match
+            var partials = data.Where(x => x.Directory.IndexOf(value, StringComparison.InvariantCultureIgnoreCase) >= 0);
+            if (partials != null && partials.Any())
+            {
+                return partials.ToArray();
+            }
+
+            return null;
         }
 
 
@@ -82,15 +158,24 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
         {
             IEnumerable<HitDataViewModel> data = null;
 
-            if (!Options.List) 
+            if (!Options.List)
                 data = new List<HitDataViewModel>().AsEnumerable();
-            else 
-                data = _hitManager.GetHitList()
-                    .OrderByDescending(x => x.HitCount)
-                    .ThenBy(x => x.Directory)
-                    .ToViewModel();
+            else
+                data = GetHitListData();
 
             info.ListData = data;
+        }
+
+        protected IEnumerable<HitDataViewModel> GetHitListData()
+        {
+            var data = _hitManager.GetHitList()
+                .OrderByDescending(x => x.HitCount)
+                .ThenBy(x => x.Directory)
+                .ToViewModel();
+
+            if (data == null) data = new List<HitDataViewModel>().AsEnumerable();
+
+            return data.ToArray();
         }
 
         #endregion
