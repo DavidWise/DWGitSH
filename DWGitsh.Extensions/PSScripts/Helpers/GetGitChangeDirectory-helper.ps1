@@ -4,7 +4,8 @@ param(
     [switch] $log,
     [switch] $logOnly,
     [switch] $last,
-    [switch] $list
+    [switch] $list,
+    [string] $Alias
 )
 
 # this exists because some of the things that need to be done aqpparently cannot be done from within the custom cmdlet
@@ -26,7 +27,7 @@ function RenderRepoList($listData) {
         Write-text "   $($_.Directory)" -colorgroup gcd-list-name -ForceColorReset -NoNewLine
 
         if ($_.HasAlias) {
-            Write-text "   $($_.Alias)" -colorgroup gcd-list-name -ForceColorReset -NoNewLine
+            Write-text "   $($_.Alias)" -colorgroup gcd-list-alias -ForceColorReset -NoNewLine
         }
 
         if ($_.HasBranch) {
@@ -92,6 +93,7 @@ function BuildCommandArgs() {
     if ($logOnly.IsPresent) { $cmdArgs.Add("LogOnly", $true) }
     if ($list.IsPresent) { $cmdArgs.Add("List", $true) }
     if ($last.IsPresent) { $cmdArgs.Add("Last", $true) }
+    if ([string]::IsNullOrEmpty($Alias) -eq $false) { $cmdArgs.Add("Alias", $Alias) }
 
     $cmdArgs
 }

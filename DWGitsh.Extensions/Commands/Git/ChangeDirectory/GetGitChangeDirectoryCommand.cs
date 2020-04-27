@@ -50,6 +50,8 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
             Action_List(result); 
 
             Action_NameOrAlias(result);
+
+            Action_SetAlias(result);
             
             return result;
         }
@@ -76,8 +78,8 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
             if (string.IsNullOrEmpty(targetName))
             {
                 info.ListData = listData;
+                info.PromptForListSelector = !this.Options.List;
                 info.Options.List = true;
-                info.PromptForListSelector = true;
                 return;
             }
 
@@ -109,6 +111,31 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
             info.ListData = matches;
             info.Options.List = true;
             info.PromptForListSelector = true;
+        }
+
+        protected void Action_SetAlias(GitChangeDirectoryInfo info)
+        {
+            if (string.IsNullOrEmpty(this.Options.Alias)) return;
+            var targetName = this.Options.NameOrAlias?.Trim();
+            if (string.IsNullOrEmpty(targetName)) return;
+
+            var listData = GetHitListData();
+
+            var matches = ResolveMatches(targetName, listData);
+
+            if (matches == null || !matches.Any())
+            {
+                info.Messages.Add($"Unable to set alias - found no match for '{targetName}'");
+                return;
+            }
+
+            if (matches.Count() > 1)
+            {
+                info.Messages.Add($"Unable to set alias - found more than one match for '{targetName}'");
+                return;
+            }
+
+            _hitManager.SetAlias(matches.Single().Directory, this.Options.Alias);
         }
 
         public static IEnumerable<HitDataViewModel> ResolveMatches(string value, IEnumerable<HitDataViewModel> data )
@@ -189,5 +216,6 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
         public bool LogOnly { get; set;  }
         public bool Last { get; set;  }
         public bool List { get; set;  }
+        public string Alias { get; set; }
     }
 }

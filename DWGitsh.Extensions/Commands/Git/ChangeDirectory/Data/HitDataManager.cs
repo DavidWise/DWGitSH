@@ -82,5 +82,19 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
             var data = _hitDataRepo.Load();
             return data.Repositories;
         }
+
+        public virtual void SetAlias(string rootFolder, string alias)
+        {
+            var newAlias = (alias ?? string.Empty).Trim();
+            if (newAlias == string.Empty) newAlias = null;
+
+            var data = _hitDataRepo.Load();
+            foreach(var item in data.Repositories)
+            {
+                if (item.Directory.IsSameFolder(rootFolder))
+                    item.Alias = alias;
+            }
+            _hitDataRepo.Save(data);
+        }
     }
 }

@@ -13,5 +13,12 @@ namespace DWGitsh.Extensions.Models
         public GetGitChangeDirectoryCommandOptions Options { get; set; }
 
         public bool PromptForListSelector { get; set; }
+
+        public List<string> Messages { get; set; }
+
+        public GitChangeDirectoryInfo()
+        {
+            this.Messages = new List<string>();
+        }
     }
 }
