@@ -13,6 +13,8 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
         public bool RemoveAlias { get; set;  }
         public string Alias { get; set; }
 
+        internal GetGitChangeDirectoryCommandOptions() { }
+
         public GetGitChangeDirectoryCommandOptions(GetGitChangeDirectory command)
         {
             NameOrAlias = command.NameOrAlias?.Trim();

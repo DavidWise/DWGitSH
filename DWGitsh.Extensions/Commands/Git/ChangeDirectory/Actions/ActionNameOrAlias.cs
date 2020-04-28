@@ -1,18 +1,15 @@
 ﻿using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
 using DWGitsh.Extensions.Models;
 using DWGitsh.Extensions.Utility;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 {
     internal class ActionNameOrAlias : GcdActionBase
     {
         public IRepositoryPaths RepositoryDirectories { get; protected set; }
-        public ActionNameOrAlias(IRepositoryPaths repoPaths, GetGitChangeDirectoryCommandOptions options, HitDataManager hitManager) : base("NameOrAlias", options, hitManager)
+        public ActionNameOrAlias(IRepositoryPaths repoPaths, GetGitChangeDirectoryCommandOptions options, IHitDataManager hitManager) : base("NameOrAlias", options, hitManager)
         {
             this.RepositoryDirectories = repoPaths;
         }

@@ -1,21 +1,16 @@
 ﻿using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
 using DWGitsh.Extensions.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 {
     internal class ActionLog : GcdActionBase
     {
-        protected bool IsUnderGitRepo { get; private set; }
+        internal bool IsUnderGitRepo { get; private set; }
 
-        public ActionLog(IRepositoryPaths repoPaths, GetGitChangeDirectoryCommandOptions options, HitDataManager hitManager) 
+        public ActionLog(IRepositoryPaths repoPaths, GetGitChangeDirectoryCommandOptions options, IHitDataManager hitManager) 
             : base("Log", options, hitManager)
         {
-            this.IsUnderGitRepo = (repoPaths != null && repoPaths.RepositoryFolder != null);
+            this.IsUnderGitRepo = !string.IsNullOrEmpty(repoPaths?.RepositoryFolder);
         }
 
         protected override bool ShouldProcessCommand()
@@ -26,7 +21,6 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 
         protected override bool TakeAction(GitChangeDirectoryInfo info)
         {
-            //if (!IsUnderGitRepo) return;
             _hitManager.LogCurrentDirectory();
 
             if (_options.LogOnly) _options.DoneProcessing = true;

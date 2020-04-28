@@ -1,17 +1,22 @@
-﻿using System;
+﻿using DWGitsh.Extensions.Models;
+using DWGitsh.Extensions.Utility;
+using StaticAbstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DWGitsh.Extensions.Models;
-using DWGitsh.Extensions.Utility;
-using Newtonsoft.Json;
-using StaticAbstraction;
-using StaticAbstraction.IO;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
 {
-    internal class HitDataManager
+    internal interface IHitDataManager
+    {
+        void LogCurrentDirectory();
+        string GetLastUsedFolder();
+        List<HitData> GetHitList();
+
+        void SetAlias(string rootFolder, string alias);
+    }
+
+    internal class HitDataManager: IHitDataManager
     {
         public IRepositoryPaths RepositoryDirectories { get; protected set; }
 

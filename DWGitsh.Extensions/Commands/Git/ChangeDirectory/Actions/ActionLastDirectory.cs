@@ -1,16 +1,11 @@
 ﻿using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
 using DWGitsh.Extensions.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 {
     internal class ActionLastDirectory : GcdActionBase
     {
-        public ActionLastDirectory(GetGitChangeDirectoryCommandOptions options, HitDataManager hitManager) 
+        public ActionLastDirectory(GetGitChangeDirectoryCommandOptions options, IHitDataManager hitManager) 
             : base("LastDirectory", options, hitManager)
         {
 

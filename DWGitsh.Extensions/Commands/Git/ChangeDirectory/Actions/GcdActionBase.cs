@@ -3,8 +3,6 @@ using DWGitsh.Extensions.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 {
@@ -17,10 +15,10 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
     { 
         public string ActionName { get; private set; }
 
-        protected HitDataManager _hitManager;
+        protected IHitDataManager _hitManager;
         protected GetGitChangeDirectoryCommandOptions _options;
 
-        protected GcdActionBase(string actionName, GetGitChangeDirectoryCommandOptions options, HitDataManager hitManager)
+        protected GcdActionBase(string actionName, GetGitChangeDirectoryCommandOptions options, IHitDataManager hitManager)
         {
             _hitManager = hitManager;
             _options = options;
