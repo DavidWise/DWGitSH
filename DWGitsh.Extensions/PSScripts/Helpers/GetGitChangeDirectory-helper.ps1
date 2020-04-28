@@ -5,10 +5,12 @@ param(
     [switch] $logOnly,
     [switch] $last,
     [switch] $list,
-    [string] $Alias
+    [string] $Alias,
+    [switch] $removeAlias
 )
 
-# this exists because some of the things that need to be done aqpparently cannot be done from within the custom cmdlet
+# this exists because some of the things that need to be done apparently cannot be done from within the custom cmdlet
+# while others do not lend themselves to customization if encapsulated in compiled code
 
 
 function Action_Last([DWGitsh.Extensions.Models.GitChangeDirectoryInfo] $cmdOutput) {
@@ -93,6 +95,7 @@ function BuildCommandArgs() {
     if ($logOnly.IsPresent) { $cmdArgs.Add("LogOnly", $true) }
     if ($list.IsPresent) { $cmdArgs.Add("List", $true) }
     if ($last.IsPresent) { $cmdArgs.Add("Last", $true) }
+    if ($removeAlias.IsPresent) { $cmdArgs.Add("RemoveAlias", $true) }
     if ([string]::IsNullOrEmpty($Alias) -eq $false) { $cmdArgs.Add("Alias", $Alias) }
 
     $cmdArgs

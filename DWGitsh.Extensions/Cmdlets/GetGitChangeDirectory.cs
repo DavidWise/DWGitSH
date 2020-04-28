@@ -24,20 +24,14 @@ namespace DWGitsh.Extensions.Cmdlets
 
         [Parameter]
         public string Alias;
+        [Parameter]
+        public SwitchParameter RemoveAlias;
 
         public GetGitChangeDirectory() : base() { }
 
         protected override GitChangeDirectoryInfo BuildResponse()
         {
-            var options = new GetGitChangeDirectoryCommandOptions
-            {
-                NameOrAlias = this.NameOrAlias,
-                Log = this.Log.IsPresent || this.LogOnly.IsPresent,
-                LogOnly = this.LogOnly.IsPresent,
-                Last = this.Last.IsPresent,
-                List = this.List.IsPresent,
-                Alias = string.IsNullOrWhiteSpace(this.Alias) ? null : this.Alias.Trim()
-            };
+            var options = new GetGitChangeDirectoryCommandOptions(this);
 
             var cmd = new GetGitChangeDirectoryCommand(this.RepositoryDirectories, options);
             var cmdResult = cmd.Process();

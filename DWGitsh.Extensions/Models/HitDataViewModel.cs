@@ -31,7 +31,6 @@ namespace DWGitsh.Extensions.Models
 
             if (data != null)
             {
-                System.Diagnostics.Debug.WriteLine($"Setting to {ordinal}");
                 result = new HitDataViewModel
                 {
                     Ordinal = ordinal,
