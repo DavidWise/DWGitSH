@@ -9,7 +9,8 @@ using NSubstitute;
 
 namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
 {
-    class ActionSetAliasTests : ChangeDirectoryActionsTestBase
+    [TestFixture]
+    public class ActionSetAliasTests : ChangeDirectoryActionsTestBase
     {
         [SetUp]
         public void Setup()

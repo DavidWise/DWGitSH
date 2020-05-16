@@ -14,17 +14,17 @@ using DWGitsh.Extensions.Commands.PowerShell;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 {
-    public class GetGitChangeDirectoryCommand : PowerShellCommandBase<GitChangeDirectoryInfo> // GitCommandBase<GitChangeDirectory, GetGitChangeDirectoryParser>
+    public class GetGitChangeDirectoryCommand : PowerShellCommandBase<GitChangeDirectoryInfo>
     {
-        protected GetGitChangeDirectoryCommandOptions Options { get; set; }
+        protected IGitChangeDirectoryOptions Options { get; set; }
 
         protected bool IsUnderGitRepo =>  (this.RepositoryDirectories != null && this.RepositoryDirectories.RepositoryFolder != null);
         
         private IHitDataManager _hitManager;
 
-        public GetGitChangeDirectoryCommand(IDWGitshCommonArgs commonArgs, GetGitChangeDirectoryCommandOptions options) : this(commonArgs, options, null) { }
+        public GetGitChangeDirectoryCommand(IDWGitshCommonArgs commonArgs, IGitChangeDirectoryOptions options) : this(commonArgs, options, null) { }
 
-        public GetGitChangeDirectoryCommand(IDWGitshCommonArgs commonArgs, GetGitChangeDirectoryCommandOptions options, IHitDataManager hitdataManager) : base(commonArgs)
+        public GetGitChangeDirectoryCommand(IDWGitshCommonArgs commonArgs, IGitChangeDirectoryOptions options, IHitDataManager hitdataManager) : base(commonArgs)
         {
             this.Options = options;
 

@@ -1,16 +1,17 @@
 ﻿using DWGitsh.Extensions.Cmdlets;
+using DWGitsh.Extensions.Models;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 {
-    public class GetGitChangeDirectoryCommandOptions
+    public class GetGitChangeDirectoryCommandOptions : IGitChangeDirectoryOptions
     {
-        public string NameOrAlias { get; set;  }
-        public bool Log { get; set;  }
-        public bool LogOnly { get; set;  }
-        public bool Last { get; set;  }
-        public bool List { get; set;  }
-        public bool DoneProcessing { get; set;  }
-        public bool RemoveAlias { get; set;  }
+        public string NameOrAlias { get; set; }
+        public bool Log { get; set; }
+        public bool LogOnly { get; set; }
+        public bool Last { get; set; }
+        public bool List { get; set; }
+        public bool DoneProcessing { get; set; }
+        public bool RemoveAlias { get; set; }
         public string Alias { get; set; }
 
         internal GetGitChangeDirectoryCommandOptions() { }

@@ -16,9 +16,9 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
         public string ActionName { get; private set; }
 
         protected IHitDataManager _hitManager;
-        protected GetGitChangeDirectoryCommandOptions _options;
+        protected IGitChangeDirectoryOptions _options;
 
-        protected GcdActionBase(string actionName, GetGitChangeDirectoryCommandOptions options, IHitDataManager hitManager)
+        protected GcdActionBase(string actionName, IGitChangeDirectoryOptions options, IHitDataManager hitManager)
         {
             _hitManager = hitManager;
             _options = options;

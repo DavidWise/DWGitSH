@@ -7,7 +7,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
     {
         internal bool IsUnderGitRepo { get; private set; }
 
-        public ActionLog(IRepositoryPaths repoPaths, GetGitChangeDirectoryCommandOptions options, IHitDataManager hitManager) 
+        public ActionLog(IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) 
             : base("Log", options, hitManager)
         {
             this.IsUnderGitRepo = !string.IsNullOrEmpty(repoPaths?.RepositoryFolder);

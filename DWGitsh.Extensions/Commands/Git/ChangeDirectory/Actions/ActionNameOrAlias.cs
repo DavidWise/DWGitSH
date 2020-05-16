@@ -9,7 +9,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
     internal class ActionNameOrAlias : GcdActionBase
     {
         public IRepositoryPaths RepositoryDirectories { get; protected set; }
-        public ActionNameOrAlias(IRepositoryPaths repoPaths, GetGitChangeDirectoryCommandOptions options, IHitDataManager hitManager) : base("NameOrAlias", options, hitManager)
+        public ActionNameOrAlias(IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base("NameOrAlias", options, hitManager)
         {
             this.RepositoryDirectories = repoPaths;
         }

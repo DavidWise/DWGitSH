@@ -5,7 +5,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 {
     internal class ActionList : GcdActionBase
     {
-        public ActionList(GetGitChangeDirectoryCommandOptions options, IHitDataManager hitManager)
+        public ActionList(IGitChangeDirectoryOptions options, IHitDataManager hitManager)
             : base("List", options, hitManager)
         {
 
