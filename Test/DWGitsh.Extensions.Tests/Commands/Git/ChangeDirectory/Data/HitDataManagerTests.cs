@@ -10,6 +10,7 @@ using StaticAbstraction.IO.Mocks;
 using StaticAbstraction.IO;
 using Newtonsoft.Json;
 using System.Linq;
+using DWGitsh.Extensions.Config;
 
 namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
 {
@@ -20,6 +21,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
         private IFile _fileManager;
         private IRepositoryPaths _repoPaths;
         private IHitDataRepo _hitRepo;
+        private IDWGitshConfig _config;
         private HitDataManager _manager;
         private string _localDataFolder = "C:\\Local\\Data\\Folder\\";
         private string _localAppDataFolder;
@@ -38,12 +40,15 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
 
             _diskManager.NewDirectoryInfo(_localAppDataFolder).Returns(new MockDirectoryInfo { FullName = _localAppDataFolder, Name = "DWGitsh" });
 
+            _config = Substitute.For<IDWGitshConfig>();
+            _config.AppDataFolder.Returns(_localAppDataFolder);
+
             _repoPaths = Substitute.For<IRepositoryPaths>();
             _repoPaths.RootFolder.Returns("C:\\Junk\\Folder\\");
             _repoPaths.RepositoryFolder.Returns("C:\\Junk\\Folder\\.git\\");
 
             _hitRepo = Substitute.For<IHitDataRepo>();
-            _manager = new HitDataManager(_localAppDataFolder, _diskManager, _repoPaths, null, _hitRepo);
+            _manager = new HitDataManager(_config, _diskManager, _repoPaths, null, _hitRepo);
 
             _hitRepo.Load().Returns(new CommandData());
         }

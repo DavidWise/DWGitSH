@@ -10,33 +10,30 @@ using System.Threading.Tasks;
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
 using DWGitsh.Extensions.Utility;
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions;
+using DWGitsh.Extensions.Commands.PowerShell;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 {
-    public class GetGitChangeDirectoryCommand : GitCommandBase<GitChangeDirectory, GetGitChangeDirectoryParser>
+    public class GetGitChangeDirectoryCommand : PowerShellCommandBase<GitChangeDirectoryInfo> // GitCommandBase<GitChangeDirectory, GetGitChangeDirectoryParser>
     {
         protected GetGitChangeDirectoryCommandOptions Options { get; set; }
 
-        public bool ExitWithoutOutput { get; protected set; }
-
         protected bool IsUnderGitRepo =>  (this.RepositoryDirectories != null && this.RepositoryDirectories.RepositoryFolder != null);
+        
+        private IHitDataManager _hitManager;
 
+        public GetGitChangeDirectoryCommand(IDWGitshCommonArgs commonArgs, GetGitChangeDirectoryCommandOptions options) : this(commonArgs, options, null) { }
 
-        private HitDataManager _hitManager;
-
-        public GetGitChangeDirectoryCommand(RepoPaths repoDirs, GetGitChangeDirectoryCommandOptions options) : base(repoDirs, false)
+        public GetGitChangeDirectoryCommand(IDWGitshCommonArgs commonArgs, GetGitChangeDirectoryCommandOptions options, IHitDataManager hitdataManager) : base(commonArgs)
         {
             this.Options = options;
 
-            this.ExitWithoutOutput = this.Options.LogOnly;
-            this.Parser = new GetGitChangeDirectoryParser(this);
-
-            _hitManager = new HitDataManager(AppDataFolder, _diskManager, repoDirs);
+            _hitManager = hitdataManager ?? new HitDataManager(_config, _diskManager, commonArgs.RepoPaths);
         }
 
 
 
-        public GitChangeDirectoryInfo Process()
+        public override GitChangeDirectoryInfo Process()
         {
             var result = new GitChangeDirectoryInfo
             { 
@@ -56,15 +53,25 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 
         protected List<IGcdAction> BuildActions()
         {
-            var result = new List<IGcdAction>
+            var result = new List<IGcdAction>();
+            var logAction = new ActionLog(this.RepositoryDirectories, this.Options, _hitManager);
+
+            if (Options.LogOnly)
             {
-                new ActionLog(this.RepositoryDirectories, this.Options, _hitManager),
-                new ActionLastDirectory(this.Options, _hitManager),
-                new ActionList(this.Options, _hitManager),
-                new ActionNameOrAlias(this.RepositoryDirectories, this.Options, _hitManager),
-                new ActionSetAlias(this.Options, _hitManager),
-                new ActionRemoveAlias(this.Options, _hitManager)
-            };
+                result.Add(logAction);
+            }
+            else
+            {
+                result = new List<IGcdAction>
+                {
+                    logAction,
+                    new ActionLastDirectory(this.Options, _hitManager),
+                    new ActionList(this.Options, _hitManager),
+                    new ActionNameOrAlias(this.RepositoryDirectories, this.Options, _hitManager),
+                    new ActionSetAlias(this.Options, _hitManager),
+                    new ActionRemoveAlias(this.Options, _hitManager)
+                };
+            }
 
             return result;
         }

@@ -1,4 +1,5 @@
-﻿using DWGitsh.Extensions.Models;
+﻿using DWGitsh.Extensions.Config;
+using DWGitsh.Extensions.Models;
 using DWGitsh.Extensions.Utility;
 using StaticAbstraction;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
 {
-    internal interface IHitDataManager
+    public interface IHitDataManager
     {
         void LogCurrentDirectory();
         string GetLastUsedFolder();
@@ -26,13 +27,13 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
         protected IGitUtils _utils;
         protected IHitDataRepo _hitDataRepo;
 
-        public HitDataManager(string dataFolder, IStaticAbstraction diskManager, IRepositoryPaths repoDirs, IGitUtils utils = null, IHitDataRepo hitRepo = null)
+        public HitDataManager(IDWGitshConfig config, IStaticAbstraction diskManager, IRepositoryPaths repoDirs, IGitUtils utils = null, IHitDataRepo hitRepo = null)
         {
             _utils = utils ?? GitUtils.Current;
             this._diskManager = diskManager ?? new StAbWrapper();
             this.RepositoryDirectories = repoDirs;
 
-            _hitDataRepo = hitRepo ?? new HitDataRepo(dataFolder, _diskManager);
+            _hitDataRepo = hitRepo ?? new HitDataRepo(config.AppDataFolder, _diskManager);
         }
 
 

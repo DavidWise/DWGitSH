@@ -6,7 +6,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
 {
 
     [Serializable]
-    internal class HitData
+    public class HitData
     {
         public string Name { get; set; }
         public string Directory { get; set; }

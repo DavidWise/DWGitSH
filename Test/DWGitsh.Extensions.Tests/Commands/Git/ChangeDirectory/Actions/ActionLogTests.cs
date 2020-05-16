@@ -7,44 +7,31 @@ using NUnit.Framework;
 
 namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
 {
-    public class ActionLogTests
+    public class ActionLogTests : ChangeDirectoryActionsTestBase
     {
-        private static string _nonGitFolder = "D:\\Some\\Nongit\\Folder";
-        private static string _rootFolder = "D:\\Junk\\Folder\\Root";
-        private static string _gitFolder = "D:\\Junk\\Folder\\Root\\.git";
-
-        private IRepositoryPaths _repoPaths;
-        private IRepositoryPaths _repoPathsNoGit;
-        private IHitDataManager _hitManager;
-
         [SetUp]
         public void Setup()
         {
-            _repoPaths = Substitute.For<IRepositoryPaths>();
-            _repoPaths.RepositoryFolder.Returns(_gitFolder);
-            _repoPaths.RootFolder.Returns(_rootFolder);
-
-            _repoPathsNoGit = Substitute.For<IRepositoryPaths>();
-            _repoPathsNoGit.CurrentPath.Returns(_nonGitFolder);
-
-            _hitManager = Substitute.For<IHitDataManager>();
+            base.SetupBase();
         }
 
         [Test]
         public void IsUnderGitRepo_valid_git()
         {
-            var options = new GetGitChangeDirectoryCommandOptions { Log = true };
+            _options.Log = true;
 
-            var test = new ActionLog(_repoPaths, options, _hitManager);
+            var test = new ActionLog(_repoPaths, _options, _hitManager);
+
             Assert.IsTrue(test.IsUnderGitRepo);
         }
 
         [Test]
         public void IsUnderGitRepo_no_git()
         {
-            var options = new GetGitChangeDirectoryCommandOptions { Log = true };
+            _options.Log = true;
 
-            var test = new ActionLog(_repoPathsNoGit, options, _hitManager);
+            var test = new ActionLog(_repoPathsNoGit, _options, _hitManager);
+
             Assert.IsFalse(test.IsUnderGitRepo);
         }
 
@@ -54,17 +41,18 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
             var options = new GetGitChangeDirectoryCommandOptions { Log = true };
 
             var test = new ActionLog(null, options, _hitManager);
+
             Assert.IsFalse(test.IsUnderGitRepo);
         }
 
         [Test]
         public void IsUnderGitRepo_no_git_not_logged()
         {
-            var options = new GetGitChangeDirectoryCommandOptions { Log = true };
-            var info = new GitChangeDirectoryInfo();
+            _options.Log = true;
 
-            var test = new ActionLog(_repoPathsNoGit, options, _hitManager);
-            test.Process(info);
+            var test = new ActionLog(_repoPathsNoGit, _options, _hitManager);
+            test.Process(_info);
+
             _hitManager.Received(0).LogCurrentDirectory();
             
         }
@@ -72,26 +60,28 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         [Test]
         public void IsUnderGitRepo_logged()
         {
-            var options = new GetGitChangeDirectoryCommandOptions { Log = true };
+            _options.Log = true;
             var info = new GitChangeDirectoryInfo();
 
-            var test = new ActionLog(_repoPaths, options, _hitManager);
+            var test = new ActionLog(_repoPaths, _options, _hitManager);
             test.Process(info);
+
             _hitManager.Received(1).LogCurrentDirectory();
-            Assert.IsFalse(options.DoneProcessing);
+            Assert.IsFalse(_options.DoneProcessing);
 
         }
 
         [Test]
         public void IsUnderGitRepo__logOnly_logged()
         {
-            var options = new GetGitChangeDirectoryCommandOptions { LogOnly = true};
+            _options.LogOnly = true;
             var info = new GitChangeDirectoryInfo();
 
-            var test = new ActionLog(_repoPaths, options, _hitManager);
+            var test = new ActionLog(_repoPaths, _options, _hitManager);
             test.Process(info);
+
             _hitManager.Received(1).LogCurrentDirectory();
-            Assert.IsTrue(options.DoneProcessing);
+            Assert.IsTrue(_options.DoneProcessing);
 
         }
     }

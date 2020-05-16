@@ -2,6 +2,7 @@
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory;
 using DWGitsh.Extensions.Commands.Git.Config;
 using DWGitsh.Extensions.Models;
+using DWGitsh.Extensions.Utility;
 using System.Management.Automation;
 
 namespace DWGitsh.Extensions.Cmdlets
@@ -33,11 +34,10 @@ namespace DWGitsh.Extensions.Cmdlets
         {
             var options = new GetGitChangeDirectoryCommandOptions(this);
 
-            var cmd = new GetGitChangeDirectoryCommand(this.RepositoryDirectories, options);
-            var cmdResult = cmd.Process();
+            var commonArgs = new DWGitshCommonArgs(null, null, this.RepositoryDirectories);
 
-            // no output is produced for commands that trigger exitnow
-            if (cmd.ExitWithoutOutput) return cmdResult;
+            var cmd = new GetGitChangeDirectoryCommand(commonArgs, options);
+            var cmdResult = cmd.Process();
 
             // assuming something written to client here
 
