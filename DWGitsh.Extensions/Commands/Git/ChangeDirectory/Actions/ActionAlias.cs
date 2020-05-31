@@ -54,7 +54,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 
         protected override bool ShouldProcessCommand()
         {
-            if (string.IsNullOrEmpty(_options.NameOrAlias) || string.IsNullOrEmpty(_options.Alias)) return false;
+            if (string.IsNullOrWhiteSpace(_options.NameOrAlias) || string.IsNullOrWhiteSpace(_options.Alias)) return false;
             return true;
         }
     }

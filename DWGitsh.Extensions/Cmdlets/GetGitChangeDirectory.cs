@@ -37,9 +37,8 @@ namespace DWGitsh.Extensions.Cmdlets
             var commonArgs = new DWGitshCommonArgs(null, null, this.RepositoryDirectories);
 
             var cmd = new GetGitChangeDirectoryCommand(commonArgs, options);
-            var cmdResult = cmd.Process();
 
-            // assuming something written to client here
+            var cmdResult = cmd.Process();
 
             return cmdResult;
         }
