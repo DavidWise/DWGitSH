@@ -44,12 +44,18 @@ namespace DWGitsh.Extensions.Tests.Commands.Git
         }
 
         [Test]
-        public void no_args_does_nothing()
+        public void no_args_does_default()
         {
+            _hitManager.GetHitList().Returns(new List<HitData>());
             CreateCommand();
+
             var result = _command.Process();
+
             Assert.NotNull(result);
-            _hitManager.Received(0).GetHitList();
+            _hitManager.Received(1).GetHitList();
+            Assert.True(result.PromptForListSelector);
+            Assert.True(result.Options.List);
+            Assert.NotNull(result.ListData);
         }
 
         [Test]

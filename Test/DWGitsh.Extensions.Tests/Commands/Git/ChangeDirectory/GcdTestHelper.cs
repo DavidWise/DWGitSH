@@ -75,13 +75,13 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory
             {
                 new HitData { Alias = "Trending", DateLastHit = baseTime.AddMinutes(-10), HitCount = 23, Directory = "S:\\One\\Bad\\FolderPath", LastBranch = "test-branch" }
                 , new HitData { Alias = "GibberMeFlibbet", DateLastHit = baseTime.AddMinutes(-90), HitCount = 3, Directory = "S:\\One\\Other\\Folderama", LastBranch = "branch-of-peace" }
+                , new HitData { DateLastHit = baseTime.AddHours(-17), HitCount = 23, Directory = "F:\\No\\Alias\\In\\This\\Folder", LastBranch = "dev" }
                 , new HitData { Alias = "Orange", DateLastHit = baseTime.AddMinutes(-1), HitCount = 12, Directory = "S:\\For\\Other\\Folgers", LastBranch = "twig-really" }
                 , new HitData { Alias = "Tangerine", DateLastHit = baseTime.AddDays(-31), HitCount = 19, Directory = "G:\\Path\\To\\Elation", LastBranch = "master" }
+                , new HitData { DateLastHit = baseTime.AddHours(-19), HitCount = 23, Directory = "G:\\Alias\\Missing\\Here", LastBranch = "dev-too" }
                 , new HitData { Alias = "Quandary", DateLastHit = baseTime.AddDays(-17), HitCount = 4, Directory = "F:\\To\\Be\\Or\\Not\\To\\Be", LastBranch = "great-dane" }
                 , new HitData { Alias = "Mastiff", DateLastHit = baseTime.AddDays(-1), HitCount = 9, Directory = "D:\\Big\\Doggie", LastBranch = "on-a-leash" }
                 , new HitData { Alias = "Orion", DateLastHit = baseTime.AddHours(-5), HitCount = 72, Directory = "C:\\Bogus\\Nebula", LastBranch = "cloudy-mass" }
-                , new HitData { DateLastHit = baseTime.AddHours(-17), HitCount = 23, Directory = "F:\\No\\Alias\\In\\This\\Folder", LastBranch = "dev" }
-                , new HitData { DateLastHit = baseTime.AddHours(-19), HitCount = 23, Directory = "G:\\Alias\\Missing\\Here", LastBranch = "dev-too" }
                 , new HitData { DateLastHit = baseTime.AddDays(-500), HitCount = 81, Directory = "M:\\Really\\Old\\Repo", LastBranch = "dev-too" }
             };
         }
