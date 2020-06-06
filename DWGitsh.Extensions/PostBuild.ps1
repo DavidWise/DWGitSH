@@ -11,7 +11,8 @@ $firstMessageWritten = $false
 
 function WriteInitialMessage([string] $deploy) {
     if ($firstMessageWritten -eq $false) {
-        write-output "Copying files to $deploy"
+        write-output ""
+        write-output "Copying files to '$($deploy)'"
     }
     $script:firstMessageWritten = $true
 }
@@ -41,14 +42,16 @@ function DetermineTargetFolder([string] $folder) {
     return $data.Name
 }
 
+function MakePathIfNotExists([string] $testExistsPath) {
+    if (-not (test-path $testExistsPath)) { $trash = new-Item -Path $testExistsPath -ItemType Directory }
+    $testExistsPath
+}
+
 $target = DetermineTargetFolder $TargetDir
 $projDir = EnsureTrailingSlash $ProjectDir
 
-$deployFolder = "$($projDir)Deploy\$target\"
-
-if ([System.IO.Directory]::Exists($deployFolder) -eq $false) {
-    [System.IO.Directory]::CreateDirectory($deployFolder)
-}
+$deployFolder = MakePathIfNotExists "$($projDir)Deploy\$target\"
+$helperFolder = MakePathIfNotExists "$($deployFolder)\Helpers\"
 
 $dlls = [System.IO.Directory]::GetFiles($TargetDir, "*.dll")
 
@@ -57,6 +60,7 @@ CopyFileIfDifferent "$($projDir)PSScripts\defaultColors.csv" $deployFolder
 CopyFileIfDifferent "$($projDir)PSScripts\_CustomGitPrompt.ps1" $deployFolder 
 CopyFileIfDifferent "$($projDir)PSScripts\DWGitsh-LibUtils.ps1" $deployFolder
 CopyFileIfDifferent "$($projDir)PSScripts\Start-GitShell.ps1" $deployFolder
+CopyFileIfDifferent "$($projDir)PSScripts\Helpers\GetGitChangeDirectory-helper.ps1" $helperFolder
 
 $dlls | % {
     CopyFileIfDifferent $_ $deployFolder
