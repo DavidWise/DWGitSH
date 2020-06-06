@@ -58,6 +58,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
                 result = new List<IGcdAction>
                 {
                     logAction,
+                    new ActionDefault(this.RepositoryDirectories, this.Options, _hitManager),
                     new ActionLastDirectory(this.RepositoryDirectories, this.Options, _hitManager),
                     new ActionList(this.RepositoryDirectories, this.Options, _hitManager),
                     new ActionNameOrAlias(this.RepositoryDirectories, this.Options, _hitManager),
