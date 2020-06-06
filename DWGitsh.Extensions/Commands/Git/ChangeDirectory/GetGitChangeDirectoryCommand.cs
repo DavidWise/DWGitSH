@@ -1,16 +1,9 @@
-﻿using DWGitsh.Extensions.Cmdlets;
-using DWGitsh.Extensions.Models;
-using StaticAbstraction;
-using StaticAbstraction.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions;
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
-using DWGitsh.Extensions.Utility;
-using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions;
 using DWGitsh.Extensions.Commands.PowerShell;
+using DWGitsh.Extensions.Models;
+using DWGitsh.Extensions.Utility;
+using System.Collections.Generic;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
 {

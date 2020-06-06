@@ -1,6 +1,4 @@
-﻿using DWGitsh.Extensions.Commands.Git.ChangeDirectory;
-using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DWGitsh.Extensions.Models
 {

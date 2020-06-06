@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
 {

@@ -1,6 +1,5 @@
 ﻿using DWGitsh.Extensions.Commands.Git.ChangeDirectory;
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions;
-using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
 using DWGitsh.Extensions.Models;
 using NSubstitute;
 using NUnit.Framework;

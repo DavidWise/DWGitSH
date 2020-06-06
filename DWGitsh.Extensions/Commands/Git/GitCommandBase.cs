@@ -4,11 +4,10 @@ using DWGitsh.Extensions.Utility;
 using DWGitsh.Extensions.Utility.Colors;
 using DWGitsh.Extensions.Utility.ConsoleIO;
 using DWPowerShell.Utility;
-using System;
-using System.Collections.Generic;
-using StaticAbstraction.IO;
 using DWPowerShell.Utility.Abstraction.Process;
 using StaticAbstraction;
+using System;
+using System.Collections.Generic;
 
 namespace DWGitsh.Extensions.Commands.Git
 {

@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NSubstitute;
 using StaticAbstraction;
-using DWGitsh.Extensions.Models;
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
-using StaticAbstraction.IO.Mocks;
 using StaticAbstraction.IO;
-using Newtonsoft.Json;
-using System.Linq;
 
 namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Data
 {

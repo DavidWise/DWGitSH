@@ -1,6 +1,5 @@
 ﻿using DWGitsh.Extensions.Cmdlets.Common;
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory;
-using DWGitsh.Extensions.Commands.Git.Config;
 using DWGitsh.Extensions.Models;
 using DWGitsh.Extensions.Utility;
 using System.Management.Automation;

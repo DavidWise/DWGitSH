@@ -1,18 +1,13 @@
-﻿using DWGitsh.Extensions.Commands.Git;
-using DWGitsh.Extensions.Commands.Git.ChangeDirectory;
+﻿using DWGitsh.Extensions.Commands.Git.ChangeDirectory;
 using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
-using DWGitsh.Extensions.Commands.Git.Status;
 using DWGitsh.Extensions.Config;
 using DWGitsh.Extensions.Models;
-using DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions;
 using DWGitsh.Extensions.Tests.Helpers;
 using DWGitsh.Extensions.Utility;
-using DWGitsh.Extensions.Utility.ConsoleIO;
 using NSubstitute;
 using NUnit.Framework;
 using StaticAbstraction;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DWGitsh.Extensions.Tests.Commands.Git
 {

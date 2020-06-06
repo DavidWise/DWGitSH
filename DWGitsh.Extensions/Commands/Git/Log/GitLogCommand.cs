@@ -1,6 +1,5 @@
 ﻿using System;
 using DWGitsh.Extensions.Cmdlets;
-using DWGitsh.Extensions.Cmdlets.Common;
 using DWGitsh.Extensions.Models;
 
 namespace DWGitsh.Extensions.Commands.Git.Log

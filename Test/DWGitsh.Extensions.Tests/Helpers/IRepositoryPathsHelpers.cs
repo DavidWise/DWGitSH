@@ -1,9 +1,6 @@
 ﻿using DWGitsh.Extensions.Models;
 using DWGitsh.Extensions.Utility.Cache;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DWGitsh.Extensions.Tests.Helpers
 {
