@@ -28,7 +28,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         public void RemoveAlias_invalid_name_no_action_taken(string value)
         {
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = value };
-            var testCmd = new ActionRemoveAlias(options, _hitManager);
+            var testCmd = new ActionRemoveAlias(_repoPaths, options, _hitManager);
 
             Assert.AreEqual(options.NameOrAlias, testCmd.TargetName);
 
@@ -45,7 +45,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         public void SetAlias_invalid_alias_no_action_taken(string value)
         {
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = "ShouldntMatter", Alias = value };
-            var testCmd = new ActionRemoveAlias(options, _hitManager);
+            var testCmd = new ActionRemoveAlias(_repoPaths, options, _hitManager);
 
             Assert.AreEqual(options.NameOrAlias, testCmd.TargetName);
 
@@ -64,7 +64,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
 
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = "Gibberish", RemoveAlias = true};
 
-            var testCmd = new ActionRemoveAlias(options, _hitManager);
+            var testCmd = new ActionRemoveAlias(_repoPaths, options, _hitManager);
 
 
             testCmd.Process(_info);
@@ -85,7 +85,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
 
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = findName, RemoveAlias = true };
 
-            var testCmd = new ActionRemoveAlias(options, _hitManager);
+            var testCmd = new ActionRemoveAlias(_repoPaths, options, _hitManager);
             Assert.AreEqual(options.NameOrAlias, testCmd.TargetName);
 
             testCmd.Process(_info);

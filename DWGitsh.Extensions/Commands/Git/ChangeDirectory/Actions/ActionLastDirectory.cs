@@ -5,8 +5,8 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 {
     internal class ActionLastDirectory : GcdActionBase
     {
-        public ActionLastDirectory(IGitChangeDirectoryOptions options, IHitDataManager hitManager) 
-            : base("LastDirectory", options, hitManager)
+        public ActionLastDirectory(IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) 
+            : base("LastDirectory", repoPaths, options, hitManager)
         {
 
         }

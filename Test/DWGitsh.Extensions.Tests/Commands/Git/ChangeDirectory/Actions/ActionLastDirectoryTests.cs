@@ -7,11 +7,13 @@ using System.Collections.Generic;
 using System.Text;
 using NSubstitute;
 using System.Linq;
+using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
 
 namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
 {
     public class ActionLastDirectoryTests : ChangeDirectoryActionsTestBase
     {
+
         [SetUp]
         public void Setup()
         {
@@ -27,7 +29,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         public void No_directory_hit(string value)
         {
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = value, Last = true };
-            var testCmd = new ActionLastDirectory(options, _hitManager);
+            var testCmd = new ActionLastDirectory(_repoPaths, options, _hitManager);
 
             testCmd.Process(_info);
 
@@ -38,7 +40,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         public void Valid_returns_last_dir()
         {
             var options = new GetGitChangeDirectoryCommandOptions { Last = true };
-            var testCmd = new ActionLastDirectory(options, _hitManager);
+            var testCmd = new ActionLastDirectory(_repoPaths, options, _hitManager);
 
             testCmd.Process(_info);
 

@@ -36,8 +36,8 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
         public override GitChangeDirectoryInfo Process()
         {
             var result = new GitChangeDirectoryInfo
-            { 
-                Options = this.Options
+            {
+                Options = new GetGitChangeDirectoryCommandOptions(this.Options)
             };
 
 
@@ -65,11 +65,11 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
                 result = new List<IGcdAction>
                 {
                     logAction,
-                    new ActionLastDirectory(this.Options, _hitManager),
-                    new ActionList(this.Options, _hitManager),
+                    new ActionLastDirectory(this.RepositoryDirectories, this.Options, _hitManager),
+                    new ActionList(this.RepositoryDirectories, this.Options, _hitManager),
                     new ActionNameOrAlias(this.RepositoryDirectories, this.Options, _hitManager),
-                    new ActionSetAlias(this.Options, _hitManager),
-                    new ActionRemoveAlias(this.Options, _hitManager)
+                    new ActionSetAlias(this.RepositoryDirectories, this.Options, _hitManager),
+                    new ActionRemoveAlias(this.RepositoryDirectories, this.Options, _hitManager)
                 };
             }
 

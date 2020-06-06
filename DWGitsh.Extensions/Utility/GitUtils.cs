@@ -140,7 +140,7 @@ namespace DWGitsh.Extensions.Utility
 
             var refPath = result.RootFolder ?? result.CurrentPath;
 
-            var cache = RepoCache.Get<CommandCache>(refPath);
+            var cache = RepoCache.Get<ICommandCache>(refPath);
             if (cache == null)
             {
                 cache = new CommandCache();

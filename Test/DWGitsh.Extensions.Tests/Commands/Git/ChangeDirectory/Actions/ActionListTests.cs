@@ -23,7 +23,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         public void Valid_returns_all_dirs()
         {
             var options = new GetGitChangeDirectoryCommandOptions { List = true };
-            var testCmd = new ActionList(options, _hitManager);
+            var testCmd = new ActionList(_repoPaths, options, _hitManager);
 
             var result = testCmd.Process(_info);
             Assert.True(result);
@@ -38,7 +38,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         public void Not_set_does_nothing()
         {
             var options = new GetGitChangeDirectoryCommandOptions {  };
-            var testCmd = new ActionList(options, _hitManager);
+            var testCmd = new ActionList(_repoPaths, options, _hitManager);
 
             var result = testCmd.Process(_info);
             Assert.False(result);

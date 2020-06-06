@@ -8,7 +8,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
     {
         public string TargetName { get; set; }
 
-        protected ActionAlias(string actionName, IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base(actionName, options, hitManager)
+        protected ActionAlias(string actionName, IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base(actionName, repoPaths, options, hitManager)
         {
             TargetName = options.NameOrAlias;
         }
@@ -50,7 +50,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 
     internal class ActionSetAlias : ActionAlias
     {
-        public ActionSetAlias(IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base("Set", options, hitManager) { }
+        public ActionSetAlias(IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base("Set", repoPaths, options, hitManager) { }
 
         protected override bool ShouldProcessCommand()
         {
@@ -61,7 +61,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 
     internal class ActionRemoveAlias : ActionAlias
     {
-        public ActionRemoveAlias(IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base("Remove", options, hitManager) { }
+        public ActionRemoveAlias(IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base("Remove", repoPaths, options, hitManager) { }
 
         protected override bool ShouldProcessCommand()
         {

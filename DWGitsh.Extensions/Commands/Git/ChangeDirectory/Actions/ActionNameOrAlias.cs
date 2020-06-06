@@ -9,14 +9,15 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
     internal class ActionNameOrAlias : GcdActionBase
     {
         public IRepositoryPaths RepositoryDirectories { get; protected set; }
-        public ActionNameOrAlias(IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base("NameOrAlias", options, hitManager)
+        public ActionNameOrAlias(IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) : base("NameOrAlias", repoPaths, options, hitManager)
         {
             this.RepositoryDirectories = repoPaths;
         }
 
         protected override bool ShouldProcessCommand()
         {
-            return true;
+            if (IsUnderGitRepo && !string.IsNullOrEmpty(_options.NameOrAlias)) return true;
+            return false;
         }
 
         protected override bool TakeAction(GitChangeDirectoryInfo info)

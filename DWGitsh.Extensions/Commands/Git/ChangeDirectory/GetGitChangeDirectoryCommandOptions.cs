@@ -26,5 +26,19 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory
             RemoveAlias = command.RemoveAlias.IsPresent;
             Alias = command.Alias?.Trim();
         }
+
+        public GetGitChangeDirectoryCommandOptions(IGitChangeDirectoryOptions source)
+        {
+            if (source == null) return;
+
+            Alias = source.Alias;
+            DoneProcessing = source.DoneProcessing;
+            Last = source.Last;
+            List = source.List;
+            Log = source.Log;
+            LogOnly = source.LogOnly;
+            NameOrAlias = source.NameOrAlias;
+            RemoveAlias = source.RemoveAlias;
+        }
     }
 }

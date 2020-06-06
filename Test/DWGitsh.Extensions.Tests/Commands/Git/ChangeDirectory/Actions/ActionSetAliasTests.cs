@@ -28,7 +28,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         public void SetAlias_invalid_name_no_action_taken(string value)
         {
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = value };
-            var testCmd = new ActionSetAlias(options, _hitManager);
+            var testCmd = new ActionSetAlias(_repoPaths, options, _hitManager);
 
             Assert.AreEqual(options.NameOrAlias, testCmd.TargetName);
 
@@ -45,7 +45,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         public void SetAlias_invalid_alias_no_action_taken(string value)
         {
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = "ShouldntMatter", Alias = value };
-            var testCmd = new ActionSetAlias(options, _hitManager);
+            var testCmd = new ActionSetAlias(_repoPaths, options, _hitManager);
 
             Assert.AreEqual(options.NameOrAlias, testCmd.TargetName);
 
@@ -63,7 +63,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
 
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = expectedData.Alias, Alias = "Surge" };
 
-            var testCmd = new ActionSetAlias(options, _hitManager);
+            var testCmd = new ActionSetAlias(_repoPaths, options, _hitManager);
             Assert.AreEqual(options.NameOrAlias, testCmd.TargetName);
             _hitManager.GetHitList().Returns(hitData);
 
@@ -84,7 +84,7 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
 
             var options = new GetGitChangeDirectoryCommandOptions { NameOrAlias = findName, Alias = "Surge" };
 
-            var testCmd = new ActionSetAlias(options, _hitManager);
+            var testCmd = new ActionSetAlias(_repoPaths, options, _hitManager);
             Assert.AreEqual(options.NameOrAlias, testCmd.TargetName);
             _hitManager.GetHitList().Returns(hitData);
 

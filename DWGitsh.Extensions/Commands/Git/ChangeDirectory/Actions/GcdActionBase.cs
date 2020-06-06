@@ -12,17 +12,29 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
     }
 
     internal abstract class GcdActionBase : IGcdAction
-    { 
+    {
+
         public string ActionName { get; private set; }
 
         protected IHitDataManager _hitManager;
         protected IGitChangeDirectoryOptions _options;
+        protected IRepositoryPaths _repoPaths;
 
-        protected GcdActionBase(string actionName, IGitChangeDirectoryOptions options, IHitDataManager hitManager)
+        protected GcdActionBase(string actionName, IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager)
         {
             _hitManager = hitManager;
             _options = options;
+            _repoPaths = repoPaths;
             this.ActionName = actionName;
+        }
+
+        internal bool IsUnderGitRepo
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_repoPaths?.RepositoryFolder)) return true;
+                return false;
+            }
         }
 
         public bool Process(GitChangeDirectoryInfo info)

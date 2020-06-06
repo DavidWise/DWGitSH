@@ -41,13 +41,9 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
 
             var origList = options.List;
             var result = testCmd.Process(_info);
-            Assert.True(result);
+            Assert.False(result);
 
-            hitManager.Received(1).GetHitList();
-
-            Assert.True(_info.PromptForListSelector == !origList);
-            Assert.True(_info.Options.List);
-            Assert.True(GcdTestHelper.AreSame(expected, _info.ListData));
+            hitManager.Received(0).GetHitList();
         }
 
 

@@ -2,7 +2,12 @@
 
 namespace DWGitsh.Extensions.Utility.Cache
 {
-    public class CommandCache : CacheContainer
+    public interface ICommandCache : ICacheContainer
+    {
+
+    }
+
+    public class CommandCache : CacheContainer, ICommandCache
     {
     }
 }

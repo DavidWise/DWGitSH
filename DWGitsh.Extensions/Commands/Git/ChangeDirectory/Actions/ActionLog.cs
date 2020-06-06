@@ -5,12 +5,10 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 {
     internal class ActionLog : GcdActionBase
     {
-        internal bool IsUnderGitRepo { get; private set; }
 
         public ActionLog(IRepositoryPaths repoPaths, IGitChangeDirectoryOptions options, IHitDataManager hitManager) 
-            : base("Log", options, hitManager)
+            : base("Log", repoPaths, options, hitManager)
         {
-            this.IsUnderGitRepo = !string.IsNullOrEmpty(repoPaths?.RepositoryFolder);
         }
 
         protected override bool ShouldProcessCommand()
