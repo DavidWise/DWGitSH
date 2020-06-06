@@ -1,4 +1,5 @@
 ﻿using DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data;
+using DWGitsh.Extensions.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,14 +43,40 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory
             return result;
         }
 
+        public static bool AreSame(HitData rawData, HitDataViewModel compare)
+        {
+            if (rawData == null && compare == null) return true;
+            if (rawData == null || compare == null) return false;
+
+            if (rawData.HitCount != compare.HitCount) return false;
+            if (rawData.DateLastHit != compare.DateLastHit) return false;
+            if (rawData.Directory != compare.Directory) return false;
+            if (rawData.Alias != compare.Alias) return false;
+            return true;
+        }
+
+        public static bool AreSame(IEnumerable<HitData> rawData, IEnumerable<HitDataViewModel> compare)
+        {
+            if (rawData == null && compare == null) return true;
+            if (rawData == null || compare == null) return false;
+            if (rawData.Count() != compare.Count()) return false;
+
+            foreach (var item in rawData)
+            {
+                var match = compare.SingleOrDefault(x => AreSame(item, x));
+                if (match == null) return false;
+            }
+            return true;
+        }
+
         private static IEnumerable<HitData> BuildRawHitData()
         {
             var baseTime = DateTime.Now;
             return new List<HitData>
             {
-                new HitData { Alias = "Trending", DateLastHit = baseTime.AddMinutes(-10), HitCount = 23, Directory = "S:\\One\\Bad\\Folder", LastBranch = "test-branch" }
-                , new HitData { Alias = "GibberMeFlibbet", DateLastHit = baseTime.AddMinutes(-90), HitCount = 3, Directory = "S:\\One\\Other\\Folder", LastBranch = "branch-of-peace" }
-                , new HitData { Alias = "Orange", DateLastHit = baseTime.AddMinutes(-1), HitCount = 12, Directory = "S:\\For\\Other\\Folders", LastBranch = "twig-really" }
+                new HitData { Alias = "Trending", DateLastHit = baseTime.AddMinutes(-10), HitCount = 23, Directory = "S:\\One\\Bad\\FolderPath", LastBranch = "test-branch" }
+                , new HitData { Alias = "GibberMeFlibbet", DateLastHit = baseTime.AddMinutes(-90), HitCount = 3, Directory = "S:\\One\\Other\\Folderama", LastBranch = "branch-of-peace" }
+                , new HitData { Alias = "Orange", DateLastHit = baseTime.AddMinutes(-1), HitCount = 12, Directory = "S:\\For\\Other\\Folgers", LastBranch = "twig-really" }
                 , new HitData { Alias = "Tangerine", DateLastHit = baseTime.AddDays(-31), HitCount = 19, Directory = "G:\\Path\\To\\Elation", LastBranch = "master" }
                 , new HitData { Alias = "Quandary", DateLastHit = baseTime.AddDays(-17), HitCount = 4, Directory = "F:\\To\\Be\\Or\\Not\\To\\Be", LastBranch = "great-dane" }
                 , new HitData { Alias = "Mastiff", DateLastHit = baseTime.AddDays(-1), HitCount = 9, Directory = "D:\\Big\\Doggie", LastBranch = "on-a-leash" }

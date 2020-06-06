@@ -18,15 +18,22 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
         protected IRepositoryPaths _repoPaths;
         protected IRepositoryPaths _repoPathsNoGit;
         protected IHitDataManager _hitManager;
+        protected IHitDataManager _hitManagerEmpty;
         protected GitChangeDirectoryInfo _info;
         protected GetGitChangeDirectoryCommandOptions _options;
+
+        protected List<HitData> _AllHitData;
+        protected HitData _lastHitFolder;
 
 
 
         protected void SetupBase()
         {
+            _AllHitData = GcdTestHelper.BuildFakeHitData();
+
             _info = new GitChangeDirectoryInfo();
             _options = new GetGitChangeDirectoryCommandOptions();
+            _info.Options = new GetGitChangeDirectoryCommandOptions();
 
             _repoPaths = Substitute.For<IRepositoryPaths>();
             _repoPaths.RepositoryFolder.Returns(_gitFolder);
@@ -36,7 +43,13 @@ namespace DWGitsh.Extensions.Tests.Commands.Git.ChangeDirectory.Actions
             _repoPathsNoGit.CurrentPath.Returns(_nonGitFolder);
 
             _hitManager = Substitute.For<IHitDataManager>();
-        
+            _hitManager.GetHitList().Returns(_AllHitData);
+            _lastHitFolder = _AllHitData.OrderByDescending(x => x.DateLastHit).First();
+            _hitManager.GetLastUsedFolder().Returns(_lastHitFolder.Directory);
+
+            _hitManagerEmpty = Substitute.For<IHitDataManager>();
+            _hitManagerEmpty.GetHitList().Returns(new List<HitData>());
+            _hitManagerEmpty.GetLastUsedFolder().Returns((string)null);
         }
 
     }

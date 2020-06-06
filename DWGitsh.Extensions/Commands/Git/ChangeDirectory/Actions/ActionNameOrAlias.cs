@@ -24,24 +24,22 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
             var targetName = _options.NameOrAlias;
             var listData = GetHitData();
 
-            if (string.IsNullOrEmpty(targetName)) return HandleNoTarget(info);
+            if (string.IsNullOrEmpty(targetName)) return HandleNoTarget(info, listData);
 
             if (targetName == "/" || targetName == "\\") return HandleRootTarget(info);
 
-            if (targetName == "-") return HandlePreviousTarget(info);
+            if (targetName == "-") return HandlePreviousTarget(info, listData);
 
             var matches = ResolveMatches(targetName, listData);
 
-            if (matches.Count() == 1) return HandleSingleTarget(info, matches.Single());
+            if (matches != null && matches.Count() == 1) return HandleSingleTarget(info, matches.Single());
 
-            return HandleMultipleTarget(info, matches);
+            return HandleMultipleTarget(info, matches ?? listData);
         }
 
-        protected bool HandleNoTarget(GitChangeDirectoryInfo info)
+        protected bool HandleNoTarget(GitChangeDirectoryInfo info, IEnumerable<HitDataViewModel> targets)
         {
-            var listData = GetHitData();
-
-            info.ListData = listData;
+            info.ListData = targets;
             info.PromptForListSelector = !_options.List;
             info.Options.List = true;
 
@@ -55,11 +53,9 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
             return true;
         }
 
-        protected bool HandlePreviousTarget(GitChangeDirectoryInfo info)
+        protected bool HandlePreviousTarget(GitChangeDirectoryInfo info, IEnumerable<HitDataViewModel> targets)
         {
-            var listData = GetHitData();
-
-            var target = listData.OrderByDescending(x => x.DateLastHit)
+            var target = targets.OrderByDescending(x => x.DateLastHit)
                 .FirstOrDefault(x => x.Directory.IsSameFolder(this.RepositoryDirectories.RootFolder) == false);
 
             if (target != null)

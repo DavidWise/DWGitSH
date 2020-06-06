@@ -54,7 +54,8 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
         {
             var matches = FindMatches(value, data);
 
-            if (matches == null) matches = data;
+            // TODO: - need a way to tell the script that no matches were found and to use the full list
+            //if (matches == null) matches = data;
 
             return matches.FixOrdinal();
         }

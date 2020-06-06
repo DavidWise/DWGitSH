@@ -37,6 +37,11 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Data
             else
                 result = new CommandData();
 
+            // ensure that nulls are never returned
+            if (result == null) result = new CommandData();
+            if (result.Repositories == null)
+                result.Repositories = new List<HitData>();
+
             return result;
         }
 
