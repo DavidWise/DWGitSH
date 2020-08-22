@@ -33,33 +33,8 @@ Keep in mind that this only makes the command-line itself faster, not git, so vi
 ![sample with staging and ahead-behind][defaultPromptWithStaging]
 
 # Setup
-_(Yeah, I know this needs simplification)_
-1. Clone the Repo
-2. Build it in Visual Studio
-3. Copy the contents of the `DWGitsh.Extensions/Deploy` folder to a more permanent location on your local drive
-4. Start PowerShell and type 
-    ```PowerShell
-    if (!(Test-Path -Path $profile.CurrentUserAllHosts))
-        { New-Item -Type File -Path $profile.CurrentUserAllHosts -Force }
 
-    ise $profile.CurrentUserAllHosts
-    ```
-5. In ISE, enter:
-
-   ```set-Alias gitsh C:\path\to\your\copy\of\Start-GitShell.ps1```
-
-6. Save it
-7. Close ISE
-8. Close PowerShell
-9. Start PowerShell
-10. Type "gitsh" and you should see something like this : 
-
-        DWGitshell Extensions - prompt will change when in a folder under git
-        using DWGitsh.Extensions v2019.6.1.1505
-
-    _if you do not see the above, it likely means that something is wrong with the Set-Alias command above_
-
-11. Change directory to anywhere that is under a git repo and the prompt should change to something similar to Git Bash
+- See the [Setup steps in the wiki](https://github.com/DavidWise/DWGitSH/wiki/Installation-and-Setup)
 
 # Usage
 1. Start powershell
