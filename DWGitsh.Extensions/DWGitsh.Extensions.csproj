@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;netcoreapp2.2;netcoreapp3.0;netstandard2.0;netstandard2.1;net46;net47</TargetFrameworks>
+    <TargetFrameworks>net48;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;netstandard2.0;netstandard2.1;net46;net47</TargetFrameworks>
     <Authors>David Wise</Authors>
     <Company />
     <Copyright>@2019 David Wise</Copyright>
@@ -94,7 +94,12 @@
     <Folder Include="Deploy\" />
     <Folder Include="PSScripts\Helpers\" />
   </ItemGroup>
+  
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="c:\windows\sysnative\windowspowershell\v1.0\powershell.exe -NoLogo -NoProfile $(ProjectDir)PostBuild.ps1 -ProjectDir $(ProjectDir) -TargetDir $(TargetDir)" />
   </Target>
+
+  <!--<ItemGroup Condition="'$(CompileConfig)' == 'DebugWT'">
+    <Exec Command="hey Diddle Diddle" />
+  </ItemGroup>-->
 </Project>
