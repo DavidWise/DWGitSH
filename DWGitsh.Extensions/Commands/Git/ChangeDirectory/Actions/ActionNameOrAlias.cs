@@ -16,7 +16,7 @@ namespace DWGitsh.Extensions.Commands.Git.ChangeDirectory.Actions
 
         protected override bool ShouldProcessCommand()
         {
-            if (IsUnderGitRepo && !string.IsNullOrEmpty(_options.NameOrAlias)) return true;
+            if (!string.IsNullOrEmpty(_options.NameOrAlias)) return true;
             return false;
         }
 

@@ -139,8 +139,8 @@ namespace DWGitsh.Extensions.Utility.Colors
                 var groupName = segments[0];
                 ConsoleColor? fg = null;
                 ConsoleColor? bg = null;
-                if (segments.Length > 1) fg = MatchColor(segments[1]);
-                if (segments.Length > 2) bg = MatchColor(segments[2]);
+                if (segments.Length > 1) fg = MatchColor(segments[1], true);
+                if (segments.Length > 2) bg = MatchColor(segments[2], false);
 
                 if (fg.HasValue || bg.HasValue)
                 {
@@ -154,13 +154,22 @@ namespace DWGitsh.Extensions.Utility.Colors
         }
 
 
-        private static ConsoleColor? MatchColor(string colorName)
+        private static ConsoleColor? MatchColor(string colorName, bool isForeground)
         {
             if (string.IsNullOrWhiteSpace(colorName) || colorName.ToLower() == "none") return null;
 
             var result = _colors[colorName];
 
-            if (!result.HasValue) throw new ApplicationException($"Color '{colorName}' is not a valid ConsoleColor");
+            if (!result.HasValue)
+            {
+                if (_definedColors.ContainsKey(colorName))
+                {
+                    var defColor = _definedColors[colorName];
+                    result = isForeground ? defColor.Foreground : defColor.Background;
+                }
+                else 
+                    throw new ApplicationException($"Color '{colorName}' is not a valid ConsoleColor");
+            }
             return result.Value;
         }
     }

@@ -14,10 +14,9 @@ stageUp, Green
 stageDown, Red
 commandExecBar, Cyan
 detachedAt, Magenta, DarkBlue
-gcd-list-number, gray
-gcd-list-name, White
-gcd-list-alias, Yellow
-gcd-list-branch, Red
-gcd-list-title, Cyan
+gcd-list-number, default
+gcd-list-name, basePath
+gcd-list-alias, abLabel
+gcd-list-branch, branch
+gcd-list-title, userId
 gcd-list-prompt, Green
-gcd-list-alias, Yellow
