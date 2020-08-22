@@ -6,11 +6,12 @@
     <Copyright>@2019 David Wise</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2020.06.06.1554</Version>
+    <Version>2020.08.22.1337</Version>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <UseNETCoreGenerator>true</UseNETCoreGenerator>
-    <AssemblyVersion>2020.06.06.1554</AssemblyVersion>
-    <FileVersion>2020.06.06.1554</FileVersion>
+    <AssemblyVersion>2020.08.22.1337</AssemblyVersion>
+    <FileVersion>2020.08.22.1337</FileVersion>
+    <Configurations>Debug;Release;DebugWT</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46'">
     <DefineConstants>NET46;NETFULL</DefineConstants>

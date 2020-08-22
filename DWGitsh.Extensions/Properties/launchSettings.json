@@ -3,7 +3,7 @@
     "DWGitsh.Extensions": {
       "commandName": "Executable",
       "executablePath": "C:\\windows\\system32\\windowspowershell\\v1.0\\powershell.exe",
-      "commandLineArgs": "-NoExit -Command \"D:\\Dev\\Github\\DWGitsh\\DWGitsh.Extensions\\devenv.ps1\"",
+      "commandLineArgs": "-NoExit -Command \"D:\\Dev\\Github\\DWGitsh\\DWGitsh.Extensions\\devenvWT.ps1\"",
       "workingDirectory": "D:\\Dev\\Github\\DWGitsh\\DWGitsh.Extensions\\bin\\Debug\\net48",
       "environmentVariables": {
         "VSProjectDir": "D:\\Dev\\Github\\DWGitsh\\DWGitsh.Extensions",

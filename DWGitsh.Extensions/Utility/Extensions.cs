@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StaticAbstraction;
+using System;
 
 namespace DWGitsh.Extensions.Utility
 {
@@ -24,6 +25,25 @@ namespace DWGitsh.Extensions.Utility
             var valueTrim = value.TrimEnd('/', '\\');
             var compareTrim = compare.TrimEnd('/', '\\');
             return valueTrim.EqualsCI(compareTrim);
+        }
+
+
+        /// <summary>
+        /// Experimental - this seems to be a way to detect if the app was launched using the Windows Terminal instead of the PowerShell command line
+        /// </summary>
+        /// <param name="environment"></param>
+        /// <returns>true if it could detect that the command is running in Windows Terminal, false if not</returns>
+        public static bool IsWindowsTerminal(this IEnvironment environment)
+        {
+            var isWinTerm = false;
+
+            if (environment != null)
+            {
+                var winTermVar = environment.GetEnvironmentVariable("WSLENV");
+                if (!string.IsNullOrEmpty(winTermVar)) isWinTerm = true;
+            }
+
+            return isWinTerm;
         }
     }
 }

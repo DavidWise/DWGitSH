@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using DWGitsh.Extensions.Models;
 
 namespace DWGitsh.Extensions.Commands.Git.Config
@@ -21,6 +22,7 @@ namespace DWGitsh.Extensions.Commands.Git.Config
         if (string.IsNullOrWhiteSpace(text)) return null;
 
             var result = new GitConfig();
+            result.IsWindowsTerminal = parser.Command.IsWindowsTerminal;
 
             var allKeys = ParseRawGitConfigData(text);
 

@@ -13,13 +13,16 @@ namespace DWGitsh.Extensions.Utility
     public interface IGitUtils
     {
         string GetPathToRepository(string currentPath);
+
         string GetBranchName(IRepositoryPaths repoDirs);
+
         RepoPaths GetRepoPaths(string currentPath, bool noCache);
 
         string FixInvalidFileNameCharsInPath(string path);
 
         string TrimTrailingSlash(string path);
     }
+
 
     public class GitUtils : IGitUtils
     {
@@ -41,6 +44,7 @@ namespace DWGitsh.Extensions.Utility
             _diskManager = new StAbWrapper();
             RepoCache = new CommandCache();
         }
+
 
         // needed for unit testing
         internal GitUtils(IStaticAbstraction diskManager, ICacheContainer repoCache) : this()
@@ -110,6 +114,7 @@ namespace DWGitsh.Extensions.Utility
 
             return result;
         }
+
 
         /// <summary>
         /// replaces characters that git allows (i.e. double quotes) with Windows equivalents where possible.
