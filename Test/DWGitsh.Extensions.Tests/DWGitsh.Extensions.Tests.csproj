@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!--<TargetFramework>net48</TargetFramework>-->
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netcoreapp3.1;net48</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <Configurations>Debug;Release;DebugWT</Configurations>
   </PropertyGroup>

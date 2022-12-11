@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;netcoreapp3.1;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;net48;netcoreapp3.1;netstandard2.0;netstandard2.1</TargetFrameworks>
     <Authors>David Wise</Authors>
     <Company />
-    <Copyright>@2019 David Wise</Copyright>
+    <Copyright>@2019-2023 David Wise</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>2020.08.22.1337</Version>
@@ -97,7 +97,7 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="c:\windows\sysnative\windowspowershell\v1.0\powershell.exe -NoLogo -NoProfile $(ProjectDir)PostBuild.ps1 -Verbose -ProjectDir $(ProjectDir) -TargetDir $(TargetDir)" />
+    <Exec Command="&quot;C:\Program Files\PowerShell\7\pwsh.exe&quot; -NoLogo -NoProfile $(ProjectDir)PostBuild.ps1 -ProjectDir $(ProjectDir) -TargetDir $(TargetDir)" />
   </Target>
 
   <!--<ItemGroup Condition="'$(CompileConfig)' == 'DebugWT'">
