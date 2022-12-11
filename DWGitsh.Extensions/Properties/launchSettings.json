@@ -32,7 +32,7 @@
         "Run in Windows Terminal (core)": {
             "commandName": "Executable",
             "executablePath": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-            "commandLineArgs": " -Command \"$(ProjectDir)devenvWT.ps1\"",
+            "commandLineArgs": " -w Hidden -Command \"$(ProjectDir)devenvWT.ps1\"",
             "environmentVariables": {
                 "VSProjectDir": "$(ProjectDir)",
                 "VSSolutionDir": "$(SolutionDir)",
