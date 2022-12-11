@@ -1,4 +1,8 @@
-﻿
+﻿[CmdletBinding(
+    SupportsShouldProcess = $False,
+    SupportsPaging = $False
+
+)]
 param(
     [string] $ProjectDir = "D:\Dev\Github\DWGitsh\DWGitsh.Extensions\",
     [string] $TargetDir = "D:\Dev\Github\DWGitsh\DWGitsh.Extensions\bin\debug\net48"
@@ -25,8 +29,10 @@ function EnsureTrailingSlash([string] $path) {
 }
 
 function CopyFileIfDifferent([string] $source, [string] $dest) {
+    write-verbose "Checking file: $source"
 	$sourceInfo = Get-ChildItem $source
     $destName = "$($dest)\$($sourceInfo.Name)"
+    write-verbose "Attempting to read target file: $destName"
 	$destInfo = Get-ChildItem $destName -ErrorAction SilentlyContinue
 
     if ($destInfo -eq $null -or $destInfo.Exists -eq $false -or $sourceInfo.LastWriteTime -ne $destInfo.LastWriteTime) {

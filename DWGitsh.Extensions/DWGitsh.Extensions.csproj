@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;netcoreapp2.2;netcoreapp3.0;netstandard2.0;netstandard2.1;net46;net47</TargetFrameworks>
+    <TargetFrameworks>net48;netcoreapp3.1;netstandard2.0;netstandard2.1</TargetFrameworks>
     <Authors>David Wise</Authors>
     <Company />
     <Copyright>@2019 David Wise</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2020.06.06.1554</Version>
+    <Version>2020.08.22.1337</Version>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <UseNETCoreGenerator>true</UseNETCoreGenerator>
-    <AssemblyVersion>2020.06.06.1554</AssemblyVersion>
-    <FileVersion>2020.06.06.1554</FileVersion>
+    <AssemblyVersion>2020.08.22.1337</AssemblyVersion>
+    <FileVersion>2020.08.22.1337</FileVersion>
+    <Configurations>Debug;Release;DebugWT</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46'">
     <DefineConstants>NET46;NETFULL</DefineConstants>
@@ -33,6 +34,7 @@
   <ItemGroup>
     <PackageReference Include="DWPowerShell.Utility" Version="0.9.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
     <PackageReference Include="StaticAbstraction" Version="1.3.1.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
@@ -93,7 +95,12 @@
     <Folder Include="Deploy\" />
     <Folder Include="PSScripts\Helpers\" />
   </ItemGroup>
+  
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="c:\windows\sysnative\windowspowershell\v1.0\powershell.exe -NoLogo -NoProfile $(ProjectDir)PostBuild.ps1 -ProjectDir $(ProjectDir) -TargetDir $(TargetDir)" />
+    <Exec Command="c:\windows\sysnative\windowspowershell\v1.0\powershell.exe -NoLogo -NoProfile $(ProjectDir)PostBuild.ps1 -Verbose -ProjectDir $(ProjectDir) -TargetDir $(TargetDir)" />
   </Target>
+
+  <!--<ItemGroup Condition="'$(CompileConfig)' == 'DebugWT'">
+    <Exec Command="hey Diddle Diddle" />
+  </ItemGroup>-->
 </Project>

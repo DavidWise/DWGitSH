@@ -8,6 +8,7 @@ namespace DWGitsh.Extensions.Models
         public string RepoOwner { get; set; }
         public string RepoName { get; set; }
         public string RepoUrl { get; set; }
+        public bool IsWindowsTerminal { get; set; }
 
         public Dictionary<string, string> Values { get; set; }
 

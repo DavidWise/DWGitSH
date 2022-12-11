@@ -22,6 +22,8 @@ namespace DWGitsh.Extensions.Commands.Git
         string CommandExecFolder { get; set; }
         bool UseCache { get; set; }
         IRepositoryPaths RepositoryDirectories { get;  }
+
+        bool IsWindowsTerminal { get; }
     }
 
     public interface IGitCommand<TResult>: IGitCommand where TResult : class, new()
@@ -47,7 +49,7 @@ namespace DWGitsh.Extensions.Commands.Git
         public bool UseCache { get; set; }
         public string CommandExecFolder { get; set; }
         public string CommandOutput { get; protected set; }
-
+        public bool IsWindowsTerminal { get; private set; }
 
         public IGitCommandResultsParser<TResult> Parser { get; protected set; }
         public IRepositoryPaths RepositoryDirectories { get; protected set; }
@@ -81,6 +83,7 @@ namespace DWGitsh.Extensions.Commands.Git
             this._processManager = processManager ?? new ProcessManager();
             this.RepositoryDirectories = repoDirs;
             this.UseCache = useCache;
+            this.IsWindowsTerminal = _diskManager.Environment.IsWindowsTerminal();
 
             _colorGroups = new ColorGroupReader(_diskManager);
 
