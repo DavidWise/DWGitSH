@@ -31,6 +31,7 @@ function EnsureTrailingSlash([string] $path) {
 function CopyFileIfDifferent([string] $source, [string] $dest) {
     write-verbose "Checking file: $source"
 	$sourceInfo = Get-ChildItem $source
+
     $destName = "$($dest)\$($sourceInfo.Name)"
     write-verbose "Attempting to read target file: $destName"
 	$destInfo = Get-ChildItem $destName -ErrorAction SilentlyContinue

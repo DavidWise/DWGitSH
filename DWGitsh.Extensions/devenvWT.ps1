@@ -1,40 +1,27 @@
-﻿# launch the 
+﻿# launches the Windows Terminal using the profile configured
 
-# Import-Module .\DWGitsh.Extensions.dll -force;
+$tabColor = "#0A9999"
 
-$PSCommand = "Import-Module .\DWGitsh.Extensions.dll -force; cd PSScripts; .\Start-GitShell.ps1;"
-$curDir = (Get-location).Path
+$curFolder = get-item .
+$curDir = $curFolder.Fullname
 
-$devenvPath = "..\..\..\devenv.ps1"
+$rootFolder = get-item $env:VSProjectDir
 
-write-host "You will need to manually load the dev environment in Windows Terminal to begin working" -ForegroundColor Yellow
-write-host "as Windows Terminal does not yet support passing arguments to powershell commands as part of the startup" -ForegroundColor Yellow
+$devenvPath = "$($env:VSProjectDir)devenv.ps1"
 
-Write-Host ""
-Write-Host "Note: As of now, debugging is not possible from a Windows Terminal session" -ForegroundColor Red
-Write-Host ""
+$windowTitle = "DWGitsh Dev Env - $($curFolder.Name)"
 
-Write-Host ""
-write-host "Type: (or paste from clipboard)" -ForegroundColor Cyan
-
-Write-Host ""
-
-Write-Host "$devenvPath" -ForegroundColor Green
-Set-Clipboard $devenvPath
-
-Write-Host ""
-
-Write-Host "Press [Enter] to launch Windows Terminal... "
-Read-Host
-
-$wtArgs = @("WT", "--title `"DWGitsh Dev Env`"", "-d `"$curDir`"", "powershell.exe")
-
+$cmdArgs = "new-tab --title `"$($windowTitle)`" --tabColor `"$tabColor`" -d `"$curDir`""
+$cmdArgs +=" pwsh.exe -noexit -File `"$devenvPath`" "
 
 $startExe = New-Object System.Diagnostics.ProcessStartInfo
-$startExe.Arguments = "--title `"DWGitsh Dev Env`" -d `"$curDir`" `"powershell.exe`""
-$startExe.WorkingDirectory = $curDir
+$startExe.Arguments = $cmdArgs
+$startExe.WorkingDirectory = "$curDir"
 $startExe.FileName = "WT"
-
 
 $proc = [System.Diagnostics.Process]::Start($startExe)
 
+Start-sleep -seconds 2
+
+$runningProc = get-process | where {$_.MainWindowTitle -eq $windowTitle} 
+$runningProc.WaitForExit()
