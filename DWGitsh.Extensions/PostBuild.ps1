@@ -29,18 +29,25 @@ function EnsureTrailingSlash([string] $path) {
 }
 
 function CopyFileIfDifferent([string] $source, [string] $dest) {
-    write-verbose "Checking file: $source"
 	$sourceInfo = Get-ChildItem $source
+    write-host $dest -ForegroundColor white -NoNewline
+    write-host "$($sourceInfo.Name)... " -NoNewline -ForegroundColor Green
 
     $destName = "$($dest)\$($sourceInfo.Name)"
     write-verbose "Attempting to read target file: $destName"
 	$destInfo = Get-ChildItem $destName -ErrorAction SilentlyContinue
 
-    if ($destInfo -eq $null -or $destInfo.Exists -eq $false -or $sourceInfo.LastWriteTime -ne $destInfo.LastWriteTime) {
-        WriteInitialMessage $dest
-        Write-Output "   - '$source'"
-    	Copy-Item $source -destination $dest -Force
+    if ($destInfo -eq $null -or $destInfo.Exists -eq $false -or
+        $sourceInfo.LastWriteTime -ne $destInfo.LastWriteTime -or 
+        $sourceInfo.Length -ne $destInfo.Length) {
+
+        #WriteInitialMessage $dest
+        #Write-Output "   - '$source'"
+    	Write-Host "copied" -ForegroundColor Yellow
+    } else {
+        Write-Host "unchanged" -ForegroundColor Gray
     }
+    
 }
 
 function DetermineTargetFolder([string] $folder) {
